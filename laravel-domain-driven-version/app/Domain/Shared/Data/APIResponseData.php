@@ -9,8 +9,9 @@ class APIResponseData extends Data
     public function __construct(
         readonly bool $status,
         readonly string $message,
-        readonly mixed $data = null,
-        readonly ?PaginationData $paggination,
+        readonly ?array $data,
+        readonly ?PaginationData $pagination,
+        readonly ?string $transaction_id
     ) {
     }
 }

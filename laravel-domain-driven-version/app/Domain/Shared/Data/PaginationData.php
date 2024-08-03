@@ -10,7 +10,8 @@ class PaginationData extends Data
         readonly int $current_page,
         readonly int $total_data,
         readonly int $total_pages,
-        readonly int $total_filter,
+        readonly int $from,
+        readonly int $to
     ) {
     }
 }

@@ -1,0 +1,2853 @@
+openapi: "3.0.2"
+info:
+  title: API Posyandu Melati
+  version: "1.0"
+servers:
+  - url: http://localhost:8000/api
+tags:
+  - name: Autentikasi admin
+    description: Untuk melakukan Autentikasi
+  - name: Autentikasi user
+    description: Untuk melakukan Autentikasi sebagai user
+  - name: Data user
+    description: Untuk mengola data user
+  - name: Data edukasi
+    description: Untuk mengola data edukasi
+  - name: Data berita acara
+    description: Untuk mengola data berita acara
+  - name: Data gambar
+    description: Untuk mengola data gambar
+  - name: Data posyandu
+    description: Untuk mengola data posyandu
+  - name: Data admin
+    description: Untuk mengola data admin
+  - name: Data Format 1
+    description: Untuk mengola data Format 1
+  - name: Data Format 2 A
+    description: Untuk mengola data Format 2 A
+  - name: Data statistik
+    description: Untuk memantau statistik posyandu
+  - name: Layanan Kader Gendong
+    description: Layanan untuk mengelola penugasan antar kader
+  - name: Layanan Resleting
+    description: Layanan remaja peduli stunting
+  - name: Layanan Penjualan
+    description: Layanan penjualan khusus posyandu
+  - name: Import excel
+    description: Fitur untuk mengimport data excel ke database
+paths:
+  /admin/register:
+    post:
+      tags:
+        - Autentikasi admin
+      summary: for GUEST
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Registration successful."
+                data:
+                  admin:
+                    full_name: "string"
+                    email: "email"
+                    job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
+                    foto_profile: "link"
+                    gender: "string"
+                    address: "string"
+                    birth_date: "date"
+                    phone_number: "string"
+                  token:
+                    access_token: "string"
+                    token_type: "Bearer"
+                    expires_in: "integer|minute"
+                errors: null
+                meta:
+                  request_id: string
+                  response_size: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Incorrect data input."
+                data: null
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /admin/login:
+    post:
+      tags:
+        - Autentikasi admin
+      summary: for GUEST
+      requestBody:
+        description: Autentikasi admin untuk melakukan login
+        required: true
+        content:
+          application/json:
+            example:
+              email_admin: "required|email"
+              password: "required|string"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Login successful."
+                data:
+                  admin:
+                    full_name: "string"
+                    email: "email"
+                    job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
+                    foto_profile: "link"
+                    gender: "string"
+                    address: "string"
+                    birth_date: "date"
+                    phone_number: "string"
+                  token:
+                    access_token: "string"
+                    token_type: "Bearer"
+                    expires_in: "integer|minute"
+                errors: null
+                meta:
+                  request_id: string
+                  response_size: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Incorrect email or password."
+                data: null
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /admin/refresh:
+    post:
+      tags:
+        - Autentikasi admin
+      summary: need ADMIN Authentication
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Refresh access token successful."
+                data:
+                  token:
+                    access_token: "string"
+                    token_type: "Bearer"
+                    expires_in: "integer|minute"
+                errors: null
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: UNAUTHORIZE
+          content:
+            application/json:
+              example:
+                status: false
+                message: "You haven't logged in!"
+                data: null
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /admin/me:
+    post:
+      tags:
+        - Autentikasi admin
+      summary: need ADMIN Authentication
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Get self admin data successful."
+                data:
+                  admin:
+                    full_name: "string"
+                    email: "email"
+                    job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
+                    foto_profile: "link"
+                    gender: "string"
+                    address: "string"
+                    birth_date: "date"
+                    phone_number: "string"
+                errors: null
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: UNAUTHORIZE
+          content:
+            application/json:
+              example:
+                status: false
+                message: "You haven't logged in!"
+                data: null
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /admin/logout:
+    post:
+      tags:
+        - Autentikasi admin
+      summary: need ADMIN Authentication
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Logout successful."
+                data: null
+                errors: null
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                status: false
+                message: "You haven't logged in!"
+                data: null
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /user:
+    get:
+      tags:
+        - Data user
+      summary: MELIHAT seluruh akun milik user
+      requestBody:
+        description: Data untuk mengubah template pagination
+        required: true
+        content:
+          application/json:
+            example:
+              search: "string"
+              length: "integer|required"
+              page: "integer"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                current_page: 2
+                data:
+                  array:
+                    id: "integer"
+                    nama: "string"
+                    email: "string"
+                    password: "string"
+                    whatsapp: "string"
+                    foto_profile: "link"
+                first_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
+                from: 2
+                last_page: 8
+                last_page_url: "http://localhost:8000/api/resleting/tantangan?page=8"
+                links: Array(10) [ {…}, {…}, {…}, … ]
+                next_page_url: "http://localhost:8000/api/resleting/tantangan?page=3"
+                path: "http://localhost:8000/api/resleting/tantangan"
+                per_page: 1
+                prev_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
+                to: 2
+                total: 8
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    put:
+      tags:
+        - Autentikasi user
+      summary: MELAKUKAN perubahan data user
+      requestBody:
+        description: Data user yang ingin diubah
+        required: true
+        content:
+          application/json:
+            example:
+              nama: "string"
+              email: "string"
+              password: "string"
+              whatsapp: "string"
+              foto_profile: "Blob base64"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Password berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /user/reset-password:
+    put:
+      tags:
+        - Autentikasi user
+      summary: MELAKUKAN perubahan password
+      requestBody:
+        description: Autentikasi user untuk melakukan login
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                old_password:
+                  type: string
+                new_password:
+                  type: string
+                confirm_password:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Password berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /user/{id}:
+    delete:
+      tags:
+        - Data user
+      summary: MENGHAPUS data user
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Akun berhasil dihapus!"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /edukasi:
+    get:
+      tags:
+        - Data edukasi
+      summary: MENDAPATKAN data edukasi
+      requestBody:
+        description: Data edukasi untuk menghapus data edukasi
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_edukasi:
+                  type: integer
+                search:
+                  type: string
+                start:
+                  type: integer
+                length:
+                  type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jumlah_data:
+                    type: integer
+                  edukasi:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_edukasi:
+                          type: string
+                        email_admin:
+                          type: string
+                        nama_lengkap:
+                          type: string
+                        judul:
+                          type: string
+                        materi:
+                          type: string
+                        overview:
+                          type: string
+                        gambar:
+                          type: string
+                        tanggal:
+                          type: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Data edukasi
+      summary: MENAMBAHKAN data edukasi
+      requestBody:
+        description: Data edukasi untuk menambahkan data edukasi
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_admin:
+                  type: integer
+                judul:
+                  type: string
+                materi:
+                  type: string
+                gambar:
+                  type: string
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil ditambahkan"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    put:
+      tags:
+        - Data edukasi
+      summary: MENGUBAH data edukasi
+      requestBody:
+        description: Data edukasi untuk mengubah data edukasi
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_edukasi:
+                  type: integer
+                judul:
+                  type: string
+                materi:
+                  type: string
+                gambar:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    delete:
+      tags:
+        - Data edukasi
+      summary: MENGHAPUS data edukasi
+      requestBody:
+        description: Data edukasi untuk menghapus data edukasi
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_edukasi:
+                  type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil dihapus"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+
+  # ==================================================================
+
+  /berita:
+    get:
+      tags:
+        - Data berita acara
+      summary: MENDAPATKAN data berita
+      requestBody:
+        description: Data berita untuk menghapus data berita
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_berita:
+                  type: integer
+                search:
+                  type: string
+                start:
+                  type: integer
+                length:
+                  type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jumlah_data:
+                    type: integer
+                  berita:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_berita:
+                          type: integer
+                        email_admin:
+                          type: string
+                        nama_lengkap:
+                          type: string
+                        judul:
+                          type: string
+                        deskripsi:
+                          type: string
+                        overview:
+                          type: string
+                        gambar:
+                          type: string
+                        tanggal_pelaksanaan:
+                          type: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Data berita acara
+      summary: MENAMBAHKAN data berita
+      requestBody:
+        description: Data berita untuk menambahkan data berita
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_admin:
+                  type: integer
+                judul:
+                  type: string
+                deskripsi:
+                  type: string
+                gambar:
+                  type: string
+                tanggal_pelaksanaan:
+                  type: string
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil ditambahkan"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    put:
+      tags:
+        - Data berita acara
+      summary: MENGUBAH data berita
+      requestBody:
+        description: Data berita untuk mengubah data berita
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_berita:
+                  type: integer
+                judul:
+                  type: string
+                deskripsi:
+                  type: string
+                gambar:
+                  type: string
+                tanggal_pelaksanaan:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    delete:
+      tags:
+        - Data berita acara
+      summary: MENGHAPUS data berita
+      requestBody:
+        description: Data berita untuk menghapus data berita
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_berita:
+                  type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil dihapus"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+
+  # ==================================================================
+
+  /gambar:
+    get:
+      tags:
+        - Data gambar
+      summary: MENDAPATKAN data gambar
+
+      requestBody:
+        description: Data gambar untuk menghapus data gambar
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_gambar:
+                  type: integer
+                start:
+                  type: integer
+                length:
+                  type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jumlah_data:
+                    type: integer
+                  gambar:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        email_admin:
+                          type: string
+                        nama_lengkap:
+                          type: string
+                        gambar:
+                          type: string
+                        tanggal:
+                          type: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Data gambar
+      summary: MENAMBAHKAN data gambar
+      requestBody:
+        description: Data gambar untuk menambahkan data gambar
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_admin:
+                  type: integer
+                gambar:
+                  type: string
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil ditambahkan"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    delete:
+      tags:
+        - Data gambar
+      summary: MENGHAPUS data gambar
+      requestBody:
+        description: Data gambar untuk menghapus data gambar
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_gambar:
+                  type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil dihapus"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+
+  # ==================================================================
+
+  /posyandu:
+    get:
+      tags:
+        - Data posyandu
+      summary: MENDAPATKAN data posyandu
+
+      requestBody:
+        description: Data posyandu untuk menghapus data posyandu
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nama_posyandu:
+                    type: string
+                  kota:
+                    type: string
+                  kecamatan:
+                    type: string
+                  kelurahan:
+                    type: string
+                  rt_rw:
+                    type: string
+                  penyampaian_ketua:
+                    type: string
+                  gambar_gedung:
+                    type: string
+                  visi:
+                    type: string
+                  misi:
+                    type: string
+                  foto_profile_ketua:
+                    type: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    put:
+      tags:
+        - Data posyandu
+      summary: MENGUBAH data posyandu
+      requestBody:
+        description: Data posyandu untuk mengubah data posyandu
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nama_posyandu:
+                  type: string
+                kota:
+                  type: string
+                kecamatan:
+                  type: string
+                kelurahan:
+                  type: string
+                rt_rw:
+                  type: string
+                penyampaian_ketua:
+                  type: string
+                gambar_gedung:
+                  type: string
+                visi:
+                  type: string
+                misi:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+
+  # ==================================================================
+
+  /admin:
+    get:
+      tags:
+        - Data admin
+      summary: MENDAPATKAN data admin
+
+      requestBody:
+        description: Data admin untuk menghapus data admin
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_admin:
+                  type: integer
+                search:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jumlah_data:
+                    type: integer
+                  admin:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_admin:
+                          type: integer
+                        id_jabatan:
+                          type: integer
+                        email_admin:
+                          type: string
+                        nama_lengkap:
+                          type: string
+                        foto_profile:
+                          type: string
+                        jenis_kelamin:
+                          type: string
+                        alamat:
+                          type: string
+                        tanggal_lahir:
+                          type: string
+                        no_telp:
+                          type: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Data admin
+      summary: MENAMBAHKAN data admin
+      requestBody:
+        description: Data admin untuk menambahkan data admin
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_jabatan:
+                  type: integer
+                email_admin:
+                  type: string
+                nama_lengkap:
+                  type: string
+                password:
+                  type: string
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil ditambahkan"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    put:
+      tags:
+        - Data admin
+      summary: MENGUBAH data admin
+      requestBody:
+        description: Data admin untuk mengubah data admin
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_admin:
+                  type: integer
+                id_jabatan:
+                  type: integer
+                email_admin:
+                  type: string
+                password:
+                  type: object
+                  properties:
+                    lama:
+                      type: string
+                    baru_a:
+                      type: string
+                    baru_b:
+                      type: string
+                nama_lengkap:
+                  type: string
+                foto_profile:
+                  type: string
+                jenis_kelamin:
+                  type: boolean
+                alamat:
+                  type: string
+                tanggal_lahir:
+                  type: string
+                no_telp:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    delete:
+      tags:
+        - Data admin
+      summary: MENGHAPUS data admin
+      requestBody:
+        description: Data admin untuk menghapus data admin
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_admin:
+                  type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil dihapus"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+
+  # ==================================================================
+
+  /format-a:
+    get:
+      tags:
+        - Data Format 1
+      summary: MENDAPATKAN data format-a
+      requestBody:
+        description: Data Format 1 untuk menghapus data format-a
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_format_a:
+                  type: integer
+                search:
+                  type: string
+                start:
+                  type: integer
+                length:
+                  type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nama_posyandu:
+                    type: string
+                  kota:
+                    type: string
+                  judul_format:
+                    type: string
+                  jumlah_lahir:
+                    type: integer
+                  jumlah_meninggal:
+                    type: integer
+                  jumlah_bayi_meninggal:
+                    type: integer
+                  jumlah_ibu_meninggal:
+                    type: integer
+                  jumlah_data:
+                    type: integer
+                  format_a:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_format_a:
+                          type: integer
+                        nama_ayah:
+                          type: string
+                        nama_ibu:
+                          type: string
+                        nama_bayi:
+                          type: string
+                        jenis_kelamin:
+                          type: string
+                        tanggal_lahir:
+                          type: string
+                        tanggal_meninggal_bayi:
+                          type: string
+                        tanggal_meninggal_ibu:
+                          type: string
+                        keterangan:
+                          type: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Data Format 1
+      summary: MENAMBAHKAN data format-a
+      requestBody:
+        description: Data Format 1 untuk menambahkan data format-a
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nama_ayah:
+                  type: string
+                nama_ibu:
+                  type: string
+                nama_bayi:
+                  type: string
+                jenis_kelamin:
+                  type: string
+                tanggal_lahir:
+                  type: string
+                tanggal_meninggal_bayi:
+                  type: string
+                tanggal_meninggal_ibu:
+                  type: string
+                keterangan:
+                  type: string
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil ditambahkan"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    put:
+      tags:
+        - Data Format 1
+      summary: MENGUBAH data format-a
+      requestBody:
+        description: Data Format 1 untuk mengubah data format-a
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_format_a:
+                  type: integer
+                nama_ayah:
+                  type: string
+                nama_ibu:
+                  type: string
+                nama_bayi:
+                  type: string
+                jenis_kelamin:
+                  type: string
+                tanggal_lahir:
+                  type: string
+                tanggal_meninggal_bayi:
+                  type: string
+                tanggal_meninggal_ibu:
+                  type: string
+                keterangan:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil diubah"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    delete:
+      tags:
+        - Data Format 1
+      summary: MENGHAPUS data format-a
+      requestBody:
+        description: Data Format 1 untuk menghapus data format-a
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_format_a:
+                  type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil dihapus"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+
+  # ==================================================================
+
+  /format-ba:
+    get:
+      tags:
+        - Data Format 2 A
+      summary: MENDAPATKAN data format-ba
+      requestBody:
+        description: Data Format 2 A untuk menghapus data format-ba
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_format_a:
+                  type: integer
+                search:
+                  type: string
+                start:
+                  type: integer
+                length:
+                  type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jumlah_data:
+                    type: integer
+                  format_ba:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_bayi:
+                          type: integer
+                        nama_bayi:
+                          type: string
+                        jenis_kelamin:
+                          type: string
+                        berat_badan:
+                          type: number
+                        ntob:
+                          type: string
+                        asi_ekslusif:
+                          type: string
+                        tanggal_lahir:
+                          type: string
+                          format: date
+                        umur:
+                          type: integer
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Data Format 2 A
+      summary: MENAMBAHKAN data format-ba
+      requestBody:
+        description: Data Format 2 A untuk menambahkan data format-ba
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_bayi:
+                  type: integer
+                judul:
+                  type: string
+                berat_badan:
+                  type: integer
+                ntob:
+                  type: string
+                asi_ekslusif:
+                  type: string
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil ditambahkan"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /format-b/unique:
+    get:
+      tags:
+        - Data Format 2 A
+      summary: MENDAPATKAN data format-b
+      requestBody:
+        description: Data Format 2 A untuk menghapus data format-b
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search:
+                  type: string
+                start:
+                  type: integer
+                length:
+                  type: integer
+                tahun:
+                  type: integer
+                tab:
+                  type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jumlah_data:
+                    type: integer
+                  format_ba:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_bayi:
+                          type: integer
+                        nama_bayi:
+                          type: string
+                        jenis_kelamin:
+                          type: string
+                        berat_badan:
+                          type: number
+                        ntob:
+                          type: string
+                        asi_ekslusif:
+                          type: string
+                        tanggal_lahir:
+                          type: string
+                          format: date
+                        umur:
+                          type: integer
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+  # ==================================================================
+
+  /statistik/dashboard:
+    get:
+      tags:
+        - Data statistik
+      summary: MENDAPATKAN data statistik
+
+      requestBody:
+        description: Data statistik untuk menghapus data statistik
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nama_statistik:
+                    type: string
+                  kota:
+                    type: string
+                  kecamatan:
+                    type: string
+                  kelurahan:
+                    type: string
+                  rt_rw:
+                    type: string
+                  penyampaian_ketua:
+                    type: string
+                  gambar_gedung:
+                    type: string
+                  visi:
+                    type: string
+                  misi:
+                    type: string
+                  foto_profile_ketua:
+                    type: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+
+  # ==================================================================
+
+  /kader-gendong:
+    get:
+      tags:
+        - Layanan Kader Gendong
+      summary: MELIHAT riwayat pencetakan surat
+      requestBody:
+        description: Data untuk mengubah template pagination
+        required: true
+        content:
+          application/json:
+            example:
+              search: "string"
+              length: "integer|required"
+              page: "integer"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                current_page: 2
+                data:
+                  array:
+                    penanda_tangan: "string"
+                    pembuat_surat: "string"
+                    isi_surat: "text"
+                    tanggal_surat: "date"
+                    created_at: "datetime"
+                    file: "Blob base64"
+                first_page_url: "http://localhost:8000/api/kader-gendong?page=1"
+                from: 2
+                last_page: 8
+                last_page_url: "http://localhost:8000/api/kader-gendong?page=8"
+                links: Array(10) [ {…}, {…}, {…}, … ]
+                next_page_url: "http://localhost:8000/api/kader-gendong?page=3"
+                path: "http://localhost:8000/api/kader-gendong"
+                per_page: 1
+                prev_page_url: "http://localhost:8000/api/kader-gendong?page=1"
+                to: 2
+                total: 8
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Layanan Kader Gendong
+      summary: MENAMBAHKAN data surat kader
+      requestBody:
+        description: Data surat untuk mencetak surat
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                penanda_tangan: "string"
+                jabatan_penanda_tangan: "string"
+                tanggal_surat: "date"
+                nomor: "string"
+                kalimat_pembuka: "text"
+                ditugaskan:
+                  nama: "string"
+                  jabatan: "string"
+                  alamat: "text"
+                isi_surat: "text"
+                kalimat_penutup: "text"
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil ditambahkan"
+                  file: "Blob base64"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+
+  # ==================================================================
+
+  /kader-gendong/preview:
+    post:
+      tags:
+        - Layanan Kader Gendong
+      summary: MENAMBAHKAN data surat kader
+      requestBody:
+        description: Data surat untuk mencetak surat
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                penanda_tangan: "string"
+                jabatan_penanda_tangan: "string"
+                tanggal_surat: "date"
+                nomor: "string"
+                kalimat_pembuka: "text"
+                ditugaskan:
+                  nama: "string"
+                  jabatan: "string"
+                  alamat: "text"
+                isi_surat: "text"
+                kalimat_penutup: "text"
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Data ... berhasil ditambahkan"
+                  file: "Blob base64"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+
+  # ==================================================================
+
+  /kader-gendong/draf:
+    get:
+      tags:
+        - Layanan Kader Gendong
+      summary: MELIHAT list draf surat
+      requestBody:
+        description: Data untuk mengubah template pagination
+        required: true
+        content:
+          application/json:
+            example:
+              search: "string"
+              length: "integer|required"
+              page: "integer"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                current_page: 2
+                data:
+                  array:
+                    penanda_tangan: "string"
+                    jabatan_penanda_tangan: "string"
+                    tanggal_surat: "date"
+                    nomor: "string"
+                    kalimat_pembuka: "text"
+                    ditugaskan:
+                      nama: "string"
+                      jabatan: "string"
+                      alamat: "text"
+                    isi_surat: "text"
+                    kalimat_penutup: "text"
+                    created_at: "datetime"
+                    file: "Blob base64"
+                first_page_url: "http://localhost:8000/api/kader-gendong?page=1"
+                from: 2
+                last_page: 8
+                last_page_url: "http://localhost:8000/api/kader-gendong?page=8"
+                links: Array(10) [ {…}, {…}, {…}, … ]
+                next_page_url: "http://localhost:8000/api/kader-gendong?page=3"
+                path: "http://localhost:8000/api/kader-gendong"
+                per_page: 1
+                prev_page_url: "http://localhost:8000/api/kader-gendong?page=1"
+                to: 2
+                total: 8
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Layanan Kader Gendong
+      summary: MENAMBAHKAN data draf surat
+      requestBody:
+        description: Data surat untuk ditambahkan ke draf
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                penanda_tangan: "string"
+                jabatan_penanda_tangan: "string"
+                tanggal_surat: "date"
+                nomor: "string"
+                kalimat_pembuka: "text"
+                ditugaskan:
+                  nama: "string"
+                  jabatan: "string"
+                  alamat: "text"
+                isi_surat: "text"
+                kalimat_penutup: "text"
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Berhasil dimasukan dalam draf"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /kader-gendong/draf/{id}:
+    put:
+      tags:
+        - Layanan Kader Gendong
+      summary: MENGUBAH data draf surat
+      requestBody:
+        description: Data surat untuk update draf
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                penanda_tangan: "string"
+                jabatan_penanda_tangan: "string"
+                tanggal_surat: "date"
+                nomor: "string"
+                kalimat_pembuka: "text"
+                ditugaskan:
+                  nama: "string"
+                  jabatan: "string"
+                  alamat: "text"
+                isi_surat: "text"
+                kalimat_penutup: "text"
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Draf berhasil diperbarui"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    delete:
+      tags:
+        - Layanan Kader Gendong
+      summary: MENGHAPUS data dari draf surat
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Draf surat dan penugasan terkait berhasil dihapus"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /kader-gendong/draf/cetak/{id}:
+    post:
+      tags:
+        - Layanan Kader Gendong
+      summary: MEMINDAHKAN draf surat ke surat
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Draf berhasil dicetak sebagai surat"
+                  file: "Blob base64"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /resleting/tantangan:
+    get:
+      tags:
+        - Layanan Resleting
+      summary: MELIHAT seluruh tantangan resleting
+      requestBody:
+        description: Data untuk mengubah template pagination
+        required: true
+        content:
+          application/json:
+            example:
+              search: "string"
+              length: "integer|required"
+              page: "integer"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                current_page: 2
+                data:
+                  array:
+                    id: "integer"
+                    judul: "string"
+                    gambar: "link"
+                    deskripsi: "text"
+                    overview: "string"
+                    tanggal_mulai: "date"
+                    tanggal_selesai: "date"
+                first_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
+                from: 2
+                last_page: 8
+                last_page_url: "http://localhost:8000/api/resleting/tantangan?page=8"
+                links: Array(10) [ {…}, {…}, {…}, … ]
+                next_page_url: "http://localhost:8000/api/resleting/tantangan?page=3"
+                path: "http://localhost:8000/api/resleting/tantangan"
+                per_page: 1
+                prev_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
+                to: 2
+                total: 8
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Layanan Resleting
+      summary: MENAMBAHKAN tantangan resleting
+      requestBody:
+        description: Data surat untuk ditambahkan ke draf
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                judul: "string"
+                gambar: "link|nullable"
+                deskripsi: "text"
+                overview: "string"
+                tanggal_mulai: "date"
+                tanggal_selesai: "date"
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Tantangan berhasil ditambahkan"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /resleting/tantangan/{id}:
+    get:
+      tags:
+        - Layanan Resleting
+      summary: MELIHAT seluruh tantangan resleting
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                judul: "string"
+                gambar: "link"
+                deskripsi: "text"
+                overview: "string"
+                tanggal_mulai: "date"
+                tanggal_selesai: "date"
+                user_submitted: "boolean|optional"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    put:
+      tags:
+        - Layanan Resleting
+      summary: MENGUBAH data tantangan
+      requestBody:
+        description: Data untuk update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                judul: "string"
+                gambar: "link|nullable"
+                deskripsi: "text"
+                overview: "string"
+                tanggal_mulai: "date"
+                tanggal_selesai: "date"
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Tantangan berhasil diperbarui"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    delete:
+      tags:
+        - Layanan Resleting
+      summary: MENGHAPUS tantangan resleting
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Tantangan telah dihapus!"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /resleting/submission:
+    get:
+      tags:
+        - Layanan Resleting
+      summary: MELIHAT semua submission
+      requestBody:
+        description: Data untuk mengubah template pagination
+        required: true
+        content:
+          application/json:
+            example:
+              search: "string"
+              length: "integer|required"
+              page: "integer"
+              tantangan_id: "integer"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                current_page: 2
+                data:
+                  array:
+                    id: "integer"
+                    tantangan_id: "integer"
+                    file: "Blob base64"
+                    link: "string"
+                    feedback: "text|nullable"
+                    peringkat: "integer"
+                    status: "string"
+                first_page_url: "http://localhost:8000/api/resleting/submission?page=1"
+                from: 2
+                last_page: 8
+                last_page_url: "http://localhost:8000/api/resleting/submission?page=8"
+                links: Array(10) [ {…}, {…}, {…}, … ]
+                next_page_url: "http://localhost:8000/api/resleting/submission?page=3"
+                path: "http://localhost:8000/api/resleting/submission"
+                per_page: 1
+                prev_page_url: "http://localhost:8000/api/resleting/submission?page=1"
+                to: 2
+                total: 8
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Layanan Resleting
+      summary: MENAMBAHKAN submission hasil
+      requestBody:
+        description: Data surat untuk ditambahkan ke draf
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                tantangan_id: "integer"
+                file: "Blob base64|nullable"
+                link: "string|nullable"
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Sumbission berhasil dikirim!"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /resleting/submission/{id}:
+    put:
+      tags:
+        - Layanan Resleting
+      summary: MENGUBAH data submission
+      requestBody:
+        description: Data surat untuk update draf
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                feedback: "text|nullable"
+                peringkat: "integer"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Submission berhasil dinilai!"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+    delete:
+      tags:
+        - Layanan Resleting
+      summary: MENGHAPUS data submission
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Submission berhasil ditarik kembali!"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /user/tantangan:
+    get:
+      tags:
+        - Layanan Resleting
+      summary: MELIHAT seluruh tantangan resleting
+      requestBody:
+        description: Data untuk mengubah template pagination
+        required: true
+        content:
+          application/json:
+            example:
+              search: "string"
+              length: "integer|required"
+              page: "integer"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                current_page: 2
+                data:
+                  array:
+                    id: "integer"
+                    judul: "string"
+                    gambar: "link"
+                    deskripsi: "text"
+                    overview: "string"
+                    tanggal_mulai: "date"
+                    tanggal_selesai: "date"
+                first_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
+                from: 2
+                last_page: 8
+                last_page_url: "http://localhost:8000/api/resleting/tantangan?page=8"
+                links: Array(10) [ {…}, {…}, {…}, … ]
+                next_page_url: "http://localhost:8000/api/resleting/tantangan?page=3"
+                path: "http://localhost:8000/api/resleting/tantangan"
+                per_page: 1
+                prev_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
+                to: 2
+                total: 8
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+  /produk:
+    get:
+      tags:
+        - Layanan Penjualan
+      summary: MELIHAT semua produk
+      requestBody:
+        description: Data untuk mengubah template pagination
+        required: true
+        content:
+          application/json:
+            example:
+              search: "string"
+              length: "integer|required"
+              page: "integer"
+              tags: "string"
+              sort: "string:terbaru|terlama|a-z|z-a|termahal|termurah"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                current_page: 2
+                data:
+                  array:
+                    id: "integer"
+                    nomor_telepon: "string"
+                    nama: "string"
+                    deskripsi: "text"
+                    overview: "text"
+                    tags: "array<string>"
+                    harga: "integer"
+                    gambar: "link"
+                first_page_url: "http://localhost:8000/api/produk?page=1"
+                from: 2
+                last_page: 8
+                last_page_url: "http://localhost:8000/api/produk?page=8"
+                links: Array(10) [ {…}, {…}, {…}, … ]
+                next_page_url: "http://localhost:8000/api/produk?page=3"
+                path: "http://localhost:8000/api/produk"
+                per_page: 1
+                prev_page_url: "http://localhost:8000/api/produk?page=1"
+                to: 2
+                total: 8
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+    post:
+      tags:
+        - Layanan Penjualan
+      summary: MENAMBAHKAN produk hasil
+      requestBody:
+        description: Data surat untuk ditambahkan ke draf
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                nomor_telepon: "string"
+                nama: "string"
+                deskripsi: "text"
+                overview: "text"
+                tags: "array<string>|nullable"
+                harga: "integer"
+                gambar: "Blob base64"
+                sedang_dijual: "boolean|default:true"
+                pin: "boolean|default:false"
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Produk berhasil ditambahkan!"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        422:
+          description: UNPROCESSABLE ENTITY
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Jumlah produk yang dipin tidak boleh lebih dari 5"
+  /produk/{id}:
+    get:
+      tags:
+        - Layanan Penjualan
+      summary: MELIHAT semua tag produk yang tersedia
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                nomor_telepon: "string"
+                nama: "string"
+                deskripsi: "text"
+                overview: "text"
+                tags: "array<string>|nullable"
+                harga: "integer"
+                gambar: "Blob base64"
+                sedang_dijual: "boolean"
+                pin: "boolean"
+    put:
+      tags:
+        - Layanan Penjualan
+      summary: MENGUBAH data produk
+      requestBody:
+        description: Data surat untuk update draf
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+              example:
+                id: "integer"
+                nomor_telepon: "string"
+                nama: "string"
+                deskripsi: "text"
+                overview: "text"
+                tags: "array<string>|nullable"
+                harga: "integer"
+                gambar: "Blob base64"
+                sedang_dijual: "boolean"
+                pin: "boolean"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Produk telah diperbarui!"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        422:
+          description: UNPROCESSABLE ENTITY
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Jumlah produk yang dipin tidak boleh lebih dari 5"
+    delete:
+      tags:
+        - Layanan Penjualan
+      summary: MENGHAPUS data produk
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+              example:
+                success:
+                  message: "Produk berhasil dihilangkan dari peredaran!"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /produk/pin:
+    get:
+      tags:
+        - Layanan Penjualan
+      summary: MELIHAT semua produk yang dipin
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    id: "integer"
+                    nomor_telepon: "string"
+                    nama: "string"
+                    deskripsi: "text"
+                    overview: "text"
+                    tags: "array<string>"
+                    harga: "integer"
+                    gambar: "link"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+  /produk/tags:
+    get:
+      tags:
+        - Layanan Penjualan
+      summary: MELIHAT semua tag produk yang tersedia
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example: "tag string"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data dengan id ... tidak ditemukan"
+  /import/format-a:
+    post:
+      tags:
+        - Import excel
+      summary: MELAKUKAN import data bayi
+      requestBody:
+        description: File excel yang dikirim
+        required: true
+        content:
+          multipart/form-data:
+            example:
+              file: "file"
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Data berhasil diimport"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
+  /import/format-b:
+    post:
+      tags:
+        - Import excel
+      summary: MELAKUKAN import data bayi
+      requestBody:
+        description: File excel yang dikirim
+        required: true
+        content:
+          multipart/form-data:
+            example:
+              file: "file"
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                success:
+                  message: "Data berhasil diimport"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                errors:
+                  message: "Data ... tidak valid"
