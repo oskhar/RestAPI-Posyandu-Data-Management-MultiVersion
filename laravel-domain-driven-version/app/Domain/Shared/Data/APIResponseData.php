@@ -8,10 +8,11 @@ class APIResponseData extends Data
 {
     public function __construct(
         readonly bool $status,
-        readonly string $message,
+        readonly ?string $message,
         readonly ?array $data,
+        readonly ?array $errors,
         readonly ?PaginationData $pagination,
-        readonly ?string $transaction_id
+        readonly ?ResponseMetaData $meta,
     ) {
     }
 }
