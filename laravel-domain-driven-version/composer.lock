@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7470acf7ce78120cbbdb21b5c075b9b0",
+    "content-hash": "404cc38b470d81634b4190c7bcd398b7",
     "packages": [
         {
             "name": "amphp/amp",
@@ -2321,6 +2321,70 @@
                 "source": "https://github.com/laravel/prompts/tree/v0.1.24"
             },
             "time": "2024-06-17T13:58:22+00:00"
+        },
+        {
+            "name": "laravel/sanctum",
+            "version": "v4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/sanctum.git",
+                "reference": "9cfc0ce80cabad5334efff73ec856339e8ec1ac1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/9cfc0ce80cabad5334efff73ec856339e8ec1ac1",
+                "reference": "9cfc0ce80cabad5334efff73ec856339e8ec1ac1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/console": "^11.0",
+                "illuminate/contracts": "^11.0",
+                "illuminate/database": "^11.0",
+                "illuminate/support": "^11.0",
+                "php": "^8.2",
+                "symfony/console": "^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.6",
+                "orchestra/testbench": "^9.0",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Sanctum\\SanctumServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Sanctum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel Sanctum provides a featherweight authentication system for SPAs and simple APIs.",
+            "keywords": [
+                "auth",
+                "laravel",
+                "sanctum"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/sanctum/issues",
+                "source": "https://github.com/laravel/sanctum"
+            },
+            "time": "2024-04-10T19:39:58+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -7723,6 +7787,106 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
+            "name": "laravel-shift/blueprint",
+            "version": "v2.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-shift/blueprint.git",
+                "reference": "05a9d91a3b2d849fdbc25317fa5242bb4bb346ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-shift/blueprint/zipball/05a9d91a3b2d849fdbc25317fa5242bb4bb346ce",
+                "reference": "05a9d91a3b2d849fdbc25317fa5242bb4bb346ce",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^10.38|^11.0",
+                "illuminate/database": "^10.38|^11.0",
+                "illuminate/filesystem": "^10.38|^11.0",
+                "illuminate/support": "^10.38|^11.0",
+                "laravel-shift/faker-registry": "^0.3.0",
+                "symfony/yaml": ">=6.2"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.2",
+                "mockery/mockery": "^1.4.4",
+                "orchestra/testbench": "^8.0|^9.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "suggest": {
+                "jasonmccreary/laravel-test-assertions": "Required to use additional assertions in generated tests (^1.0)."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Blueprint\\BlueprintServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Blueprint\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "An expressive, human readable code generation tool.",
+            "keywords": [
+                "code generation",
+                "framework",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel-shift/blueprint/issues",
+                "source": "https://github.com/laravel-shift/blueprint/tree/v2.10.0"
+            },
+            "time": "2024-03-13T19:42:08+00:00"
+        },
+        {
+            "name": "laravel-shift/faker-registry",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-shift/faker-registry.git",
+                "reference": "968ab023b6c76c2f67cc474ba6d81fce8ff869a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-shift/faker-registry/zipball/968ab023b6c76c2f67cc474ba6d81fce8ff869a9",
+                "reference": "968ab023b6c76c2f67cc474ba6d81fce8ff869a9",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Shift\\Faker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jason McCreary",
+                    "email": "jason@pureconcepts.net"
+                }
+            ],
+            "description": "A registry for generating Faker data from a name or data type.",
+            "support": {
+                "issues": "https://github.com/laravel-shift/faker-registry/issues",
+                "source": "https://github.com/laravel-shift/faker-registry/tree/v0.3.0"
+            },
+            "time": "2023-11-24T15:54:02+00:00"
+        },
+        {
             "name": "laravel/pint",
             "version": "v1.17.1",
             "source": {
@@ -7996,23 +8160,23 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v8.3.0",
+            "version": "v8.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "b49f5b2891ce52726adfd162841c69d4e4c84229"
+                "reference": "e7d1aa8ed753f63fa816932bbc89678238843b4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/b49f5b2891ce52726adfd162841c69d4e4c84229",
-                "reference": "b49f5b2891ce52726adfd162841c69d4e4c84229",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/e7d1aa8ed753f63fa816932bbc89678238843b4a",
+                "reference": "e7d1aa8ed753f63fa816932bbc89678238843b4a",
                 "shasum": ""
             },
             "require": {
                 "filp/whoops": "^2.15.4",
                 "nunomaduro/termwind": "^2.0.1",
                 "php": "^8.2.0",
-                "symfony/console": "^7.1.2"
+                "symfony/console": "^7.1.3"
             },
             "conflict": {
                 "laravel/framework": "<11.0.0 || >=12.0.0",
@@ -8020,13 +8184,13 @@
             },
             "require-dev": {
                 "larastan/larastan": "^2.9.8",
-                "laravel/framework": "^11.16.0",
-                "laravel/pint": "^1.16.2",
-                "laravel/sail": "^1.30.2",
+                "laravel/framework": "^11.19.0",
+                "laravel/pint": "^1.17.1",
+                "laravel/sail": "^1.31.0",
                 "laravel/sanctum": "^4.0.2",
                 "laravel/tinker": "^2.9.0",
-                "orchestra/testbench-core": "^9.2.1",
-                "pestphp/pest": "^2.34.9 || ^3.0.0",
+                "orchestra/testbench-core": "^9.2.3",
+                "pestphp/pest": "^2.35.0 || ^3.0.0",
                 "sebastian/environment": "^6.1.0 || ^7.0.0"
             },
             "type": "library",
@@ -8089,7 +8253,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-07-16T22:41:01+00:00"
+            "time": "2024-08-03T15:32:23+00:00"
         },
         {
             "name": "phar-io/manifest",
