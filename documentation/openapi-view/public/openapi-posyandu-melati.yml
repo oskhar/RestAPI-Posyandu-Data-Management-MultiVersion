@@ -36,49 +36,6 @@ tags:
   - name: Import excel
     description: Fitur untuk mengimport data excel ke database
 paths:
-  /admin/register:
-    post:
-      tags:
-        - Autentikasi admin
-      summary: for GUEST
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              example:
-                status: true
-                message: "Registration successful."
-                data:
-                  admin:
-                    full_name: "string"
-                    email: "email"
-                    job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
-                    foto_profile: "link"
-                    gender: "string"
-                    address: "string"
-                    birth_date: "date"
-                    phone_number: "string"
-                  token:
-                    access_token: "string"
-                    token_type: "Bearer"
-                    expires_in: "integer|minute"
-                errors: null
-                meta:
-                  request_id: string
-                  response_size: string
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                status: false
-                message: "Incorrect data input."
-                data: null
-                errors: "array<string>"
-                meta:
-                  request_id: string
-                  response_size: string
   /admin/login:
     post:
       tags:
@@ -106,7 +63,7 @@ paths:
                     email: "email"
                     job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
                     foto_profile: "link"
-                    gender: "string"
+                    gender: "laki-laki|perempuan"
                     address: "string"
                     birth_date: "date"
                     phone_number: "string"
@@ -183,7 +140,7 @@ paths:
                     email: "email"
                     job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
                     foto_profile: "link"
-                    gender: "string"
+                    gender: "laki-laki|perempuan"
                     address: "string"
                     birth_date: "date"
                     phone_number: "string"
@@ -228,6 +185,45 @@ paths:
               example:
                 status: false
                 message: "You haven't logged in!"
+                data: null
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /register:
+    post:
+      tags:
+        - Autentikasi user
+      summary: for GUEST
+      requestBody:
+        description: Autentikasi admin untuk melakukan login
+        content:
+          application/json:
+            example:
+              full_name: "string"
+              email: "email"
+              birth_date: "date"
+              phone_number: "string"
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Registration successful."
+                data: null
+                errors: null
+                meta:
+                  request_id: string
+                  response_size: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Incorrect data input."
                 data: null
                 errors: "array<string>"
                 meta:
