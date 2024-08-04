@@ -37,7 +37,7 @@
   "errors": {
     "status": false,
     "message": "Incorrect email or password.",
-    "errors": "array<string>",
+    "detail": "array<string>",
     "meta": {
       "request_id": "string",
       "response_size": "string"

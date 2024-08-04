@@ -62,8 +62,8 @@ paths:
                     full_name: "string"
                     email: "email"
                     job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
-                    foto_profile: "link"
-                    gender: "laki-laki|perempuan"
+                    profile_picture: "link"
+                    gender: "L|P"
                     address: "string"
                     birth_date: "date"
                     phone_number: "string"
@@ -71,7 +71,6 @@ paths:
                     access_token: "string"
                     token_type: "Bearer"
                     expires_in: "integer|minute"
-                errors: null
                 meta:
                   request_id: string
                   response_size: string
@@ -82,7 +81,6 @@ paths:
               example:
                 status: false
                 message: "Incorrect email or password."
-                data: null
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -105,7 +103,6 @@ paths:
                     access_token: "string"
                     token_type: "Bearer"
                     expires_in: "integer|minute"
-                errors: null
                 meta:
                   request_id: string
                   response_size: string
@@ -116,7 +113,6 @@ paths:
               example:
                 status: false
                 message: "You haven't logged in!"
-                data: null
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -139,12 +135,11 @@ paths:
                     full_name: "string"
                     email: "email"
                     job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
-                    foto_profile: "link"
-                    gender: "laki-laki|perempuan"
+                    profile_picture: "link"
+                    gender: "L|P"
                     address: "string"
                     birth_date: "date"
                     phone_number: "string"
-                errors: null
                 meta:
                   request_id: string
                   response_size: string
@@ -155,7 +150,6 @@ paths:
               example:
                 status: false
                 message: "You haven't logged in!"
-                data: null
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -173,8 +167,6 @@ paths:
               example:
                 status: true
                 message: "Logout successful."
-                data: null
-                errors: null
                 meta:
                   request_id: string
                   response_size: string
@@ -185,7 +177,6 @@ paths:
               example:
                 status: false
                 message: "You haven't logged in!"
-                data: null
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -212,8 +203,6 @@ paths:
               example:
                 status: true
                 message: "Registration successful."
-                data: null
-                errors: null
                 meta:
                   request_id: string
                   response_size: string
@@ -224,7 +213,6 @@ paths:
               example:
                 status: false
                 message: "Incorrect data input."
-                data: null
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -257,7 +245,7 @@ paths:
                     email: "string"
                     password: "string"
                     whatsapp: "string"
-                    foto_profile: "link"
+                    profile_picture: "link"
                 first_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
                 from: 2
                 last_page: 8
