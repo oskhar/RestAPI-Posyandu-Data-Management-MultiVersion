@@ -1,0 +1,249 @@
+models:
+  admins:
+    user_id: id foreign:users.id
+    job_title: enum:PENANGGUNG JAWAB,KETUA,SEKRETARIS,BENDAHARA,PENDAFTARAN,PENIMBANGAN,PENCATATAN,PENYULUHAN,KERJASAMA KADER,PENJUAL
+    address: string
+    softDeletes
+    timestamps
+
+  community_centers:
+    city: string
+    district: string
+    sub_district: string
+    neighborhood: string
+    leader_statement: text
+    organizational_structure_image: string
+    vision: text
+    mission: text
+    last_updated_by: id foreign:users.id nullable
+    softDeletes
+    timestamps
+
+  banner_sliders:
+    image: string
+    timestamps
+
+  community_center_banner_sliders:
+    id: false
+    community_center_id: id foreign:community_centers.id primary
+    banner_slider_id: id foreign:banner_sliders.id primary
+    timestamps
+
+  galery:
+    admin_id: id foreign:admins.id
+    image: string
+    softDeletes
+    timestamps
+
+  members:
+    user_id: id foreign:users.id
+    poin: integer default:0
+    softDeletes
+    timestamps
+
+  educations:
+    admin_id: id foreign:admins.id
+    title: string
+    content: text nullable
+    image: string nullable
+    timestamps
+
+  education_tags:
+    name: string
+    timestamps
+
+  education_tag_pivots:
+    id: false
+    education_id: id foreign:educations.id primary
+    education_tag_id: id foreign:education_tags.id primary
+    timestamps
+
+  events:
+    admin_id: id foreign:admins.id
+    title: string
+    description: text
+    start_datetime: datetime
+    end_datetime: datetime nullable
+    location: text nullable
+    softDeletes
+    timestamps
+
+  event_categories:
+    name: string
+    timestamps
+
+  event_categorie_pivots:
+    id: false
+    event_id: id foreign:events.id primary
+    event_categorie_id: id foreign:event_categories.id primary
+    timestamps
+
+  letters:
+    admin_id: id foreign:admins.id
+    signatory_name: string
+    signatory_position: string
+    letter_date: date
+    letter_number: string
+    opening_sentence: text
+    body_sentence: text
+    closing_sentence: text
+    is_draft: boolean
+    timestamps
+
+  employees:
+    name: string
+    title: string
+    address: text
+    timestamps
+
+  letter_employee_pivots:
+    id: false
+    letter_id: id foreign:letters.id primary
+    employee_id: id foreign:employees.id primary
+    timestamps
+
+  products:
+    admin_id: id foreign:admins.id
+    name: string
+    phone_number: string nullable
+    description: text
+    overview: text
+    price: integer unsigned
+    image: string
+    active: boolean default:true
+    pin: boolean default:false
+    timestamps
+
+  product_tags:
+    name: string
+    timestamps
+
+  product_tag_pivots:
+    id: false
+    product_id: id foreign:products.id primary
+    product_tag_id: id foreign:product_tags.id primary
+    timestamps
+
+  challenges:
+    admin_id: id foreign:admins.id
+    title: string
+    description: text
+    overview: text
+    start_date: date
+    end_date: date nullable
+    timestamps
+
+  submissions:
+    challenge_id: id foreign:challenges.id
+    member_id: id foreign:members.id
+    file: string
+    link: string
+    feedback: text nullable
+    ranking: integer nullable
+    poin: integer unsigned default:0
+    status: enum:Tersubmit,Sedang Diperiksa,Sudah Dinilai
+    timestamps
+
+  families:
+    is_local_resident: boolean default:true
+    detail: text nullable
+    address: text nullable
+    rt: integer
+    rw: integer
+    phone_number: string
+    timestamps
+
+  residents:
+    admin_id: id foreign:admins.id
+    familie_id: id foreign:families.id
+    name: string
+    nik: string nullable
+    gender: enum:L,P
+    position: string nullable
+    birth_place: text nullable
+    birth_date: date
+    date_of_death: date nullable
+    education: string nullable
+    occupation: string nullable
+    notes: text nullable
+    softDeletes
+    timestamps
+
+  adolescents:
+    resident_id: id foreign:residents.id
+    weight: float nullable unsigned
+    height: float nullable unsigned
+    waist_circumference: float nullable unsigned
+    arm_circumference: float nullable unsigned
+    hemoglobin: float nullable unsigned
+    blood_pressure: string nullable
+    notes: text nullable
+    timestamps
+
+  women_of_reproductive_ages:
+    resident_id: id foreign:residents.id
+    ks_stage: string nullable
+    dasawisma_group: string nullable
+    arm_circumference: float nullable unsigned
+    number_of_living_children: integer default:0 unsigned
+    number_of_deceased_children: integer default:0 unsigned
+    immunization: text nullable
+    contraception_type: string nullable
+    contraception_replacement_date: date nullable
+    notes: text nullable
+    timestamps
+
+  pregnant_women:
+    resident_id: id foreign:residents.id
+    dasawisma_group: string
+    registration_date: date
+    pregnancy_age: integer
+    pregnancy_order: integer
+    lila: float
+    supplementary_feeding: string
+    iron_pills: text
+    immunizations: text
+    vitamins_a: boolean nullable
+    notes: text nullable
+    timestamps
+
+  infants:
+    resident_id: id foreign:residents.id
+    child_order: integer nullable unsigned
+    birth_weight: float nullable unsigned
+    birth_height: float nullable unsigned
+    is_imd: boolean default:false
+    is_exclusive_breastfeeding: boolean default:false
+    services_received: text nullable
+    immunization_based_on_weight: string
+    has_kms: boolean default:false
+    has_kia: boolean default:false
+    notes: text nullable
+    timestamps
+
+  standard_deviations:
+    gender: enum:L,P
+    age_in_months: integer
+    severely_underweight: float
+    underweight: float
+    normal_underweight: float
+    healthy: float
+    normal_overweight: float
+    overweight: float
+    severely_overweight: float
+
+  infant_weights:
+    infant_id: id foreign:infants.id
+    standard_deviation_id: id foreign:standard_deviations.id
+    weighing_year: integer unsigned
+    weighing_month: integer unsigned
+    weight: float unsigned
+    height: float nullable unsigned
+    mid_upper_arm_circumference: float nullable unsigned
+    head_circumference: float nullable unsigned
+    measurement_method: string nullable
+    ntob: string nullable
+    exclusive_breastfeeding: boolean default:false
+    vitamins_a: boolean nullable
+    tetanus_neonatorum: boolean nullable
+    timestamps
