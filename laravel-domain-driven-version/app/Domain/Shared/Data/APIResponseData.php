@@ -7,8 +7,8 @@ use Spatie\LaravelData\Data;
 class APIResponseData extends Data
 {
     public function __construct(
-        readonly bool $status,
         readonly ?string $message,
+        readonly bool $status = true,
         readonly ?array $data,
         readonly ?array $errors,
         readonly ?PaginationData $pagination,

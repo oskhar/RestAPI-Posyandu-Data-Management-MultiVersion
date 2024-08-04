@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Responses;
+namespace Domain\Shared\Enums;
 
 use Domain\Shared\Data\APIResponseData;
 use Illuminate\Http\JsonResponse;
