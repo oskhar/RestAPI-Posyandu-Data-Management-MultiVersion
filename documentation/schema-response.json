@@ -1,7 +1,7 @@
 {
   "status": true,
   "message": "Login successful.",
-  // kalau ada data
+  "____COMMENT1": "kalau ada data",
   "data": {
     "admin": {
       "full_name": "string",
@@ -11,16 +11,16 @@
       "gender": "laki-laki|perempuan",
       "address": "string",
       "birth_date": "date",
-      "phone_number": "string",
-    }
-    // kalau ada token
+      "phone_number": "string"
+    },
+    "____COMMENT1": "kalau ada token",
     "token": {
       "access_token": "string",
       "token_type": "Bearer",
       "expires_in": "integer|minute"
     }
   },
-  // kalau ada pagination
+  "____COMMENT2": "kalau ada pagination",
   "pagination": {
     "total": "integer",
     "per_page": "integer",
@@ -33,7 +33,7 @@
       "last": "string"
     }
   },
-  // kalau ada error
+  "____COMMENT3": "kalau ada error",
   "errors": {
     "status": false,
     "message": "Incorrect email or password.",
