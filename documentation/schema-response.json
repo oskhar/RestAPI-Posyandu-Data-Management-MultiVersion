@@ -1,0 +1,48 @@
+{
+  "status": true,
+  "message": "Login successful.",
+  // kalau ada data
+  "data": {
+    "full_name": "string",
+    "email": "email",
+    "job_title": "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL",
+    "profile_picture": "link",
+    "gender": "laki-laki|perempuan",
+    "address": "string",
+    "birth_date": "date",
+    "phone_number": "string"
+  },
+  // kalau ada token
+  "token": {
+    "access_token": "string",
+    "token_type": "Bearer",
+    "expires_in": "integer|minute"
+  },
+  // kalau ada pagination
+  "pagination": {
+    "total": "integer",
+    "per_page": "integer",
+    "current_page": "integer",
+    "total_pages": "integer",
+    "links": {
+      "next": "string",
+      "prev": "string",
+      "first": "string",
+      "last": "string"
+    }
+  },
+  // kalau ada error
+  "errors": {
+    "status": false,
+    "message": "Incorrect email or password.",
+    "errors": "array<string>",
+    "meta": {
+      "request_id": "string",
+      "response_size": "string"
+    }
+  },
+  "meta": {
+    "request_id": "string",
+    "response_size": "string"
+  }
+}
