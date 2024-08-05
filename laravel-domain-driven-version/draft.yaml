@@ -10,11 +10,11 @@ models:
     city: string
     district: string
     sub_district: string
-    neighborhood: string
     leader_statement: text
-    organizational_structure_image: string
-    vision: text
-    mission: text
+    organizational_structure_image: string nullable
+    tasks_and_effects: text nullable
+    vision: text nullable
+    mission: text nullable
     last_updated_by: id foreign:users.id nullable
     softDeletes
     timestamps
@@ -46,6 +46,7 @@ models:
     title: string
     content: text nullable
     image: string nullable
+    overview: text
     timestamps
 
   education_tags:
@@ -62,9 +63,11 @@ models:
     admin_id: id foreign:admins.id
     title: string
     description: text
+    image: string nullable
     start_datetime: datetime
     end_datetime: datetime nullable
     location: text nullable
+    overview: text
     softDeletes
     timestamps
 
