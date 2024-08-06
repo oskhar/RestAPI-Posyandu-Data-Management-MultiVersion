@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Infrastructure\Services;
+
+use App\Infrastructure\API\Data\APIResponseData;
+use App\Infrastructure\API\Enums\APIStatusEnum;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
+class {{ class }}
+{
+    protected APIResponseService $apiResponse;
+
+    /**
+     * Create a new service instance.
+     *
+     */
+    public function __construct(APIResponseService $apiResponse)
+    {
+        $this->apiResponse = $apiResponse;
+    }
+
+    /**
+     * Execute the main logic of the service.
+     *
+     * @return mixed
+     * @throws HttpResponseException
+     */
+    public function execute()
+    {
+        try {
+            //
+        } catch (\Exception $error) {
+            throw new HttpResponseException(
+                $this->apiResponse->execute(APIResponseData::from([
+                    "status" => false,
+                    "errors" => [
+                        $error->getMessage()
+                    ]
+                ]), APIStatusEnum::INTERNAL_SERVER_ERROR)
+            );
+        }
+    }
+}
