@@ -121,6 +121,17 @@ paths:
                 meta:
                   request_id: string
                   response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
   /admin/me:
     post:
       tags:
@@ -158,6 +169,17 @@ paths:
                 meta:
                   request_id: string
                   response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
   /admin/logout:
     post:
       tags:
@@ -181,6 +203,17 @@ paths:
               example:
                 status: false
                 message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -231,6 +264,17 @@ paths:
               example:
                 status: false
                 message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -346,6 +390,17 @@ paths:
                 meta:
                   request_id: string
                   response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
   /member/me:
     post:
       tags:
@@ -382,6 +437,17 @@ paths:
                 meta:
                   request_id: string
                   response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
   /member/logout:
     post:
       tags:
@@ -405,6 +471,17 @@ paths:
               example:
                 status: false
                 message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -459,6 +536,17 @@ paths:
                 meta:
                   request_id: string
                   response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
   /member:
     get:
       tags:
@@ -501,11 +589,12 @@ paths:
                 message: "Success! Your request has safely landed back to Earth."
                 data:
                   member:
-                    full_name: "string"
-                    profile_picture: "link"
-                    gender: "L|P"
-                    birth_date: "date"
-                    phone_number: "string"
+                    <array>:
+                      full_name: "string"
+                      profile_picture: "link"
+                      gender: "L|P"
+                      birth_date: "date"
+                      phone_number: "string"
                   pagination:
                     total: "integer"
                     per_page: "integer"
@@ -516,6 +605,17 @@ paths:
                       prev: "string"
                       first: "string"
                       last: "string"
+                meta:
+                  request_id: string
+                  response_size: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
+                errors: "array<string>"
                 meta:
                   request_id: string
                   response_size: string
@@ -530,10 +630,80 @@ paths:
                 meta:
                   request_id: string
                   response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
     put:
       tags:
         - Member Data
       summary: need MEMBER Authentication
+      requestBody:
+        content:
+          application/json:
+            example:
+              full_name: "string|required"
+              email: "email|unique|required"
+              gender: "L|P|required"
+              birth_date: "date|required"
+              profile_picture: "Base64"
+              phone_number: "string"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Success! Your request has safely landed back to Earth."
+                meta:
+                  request_id: string
+                  response_size: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /member/{id}:
+    put:
+      tags:
+        - Member Data
+      summary: need ADMIN Authentication
       requestBody:
         content:
           application/json:
@@ -555,6 +725,17 @@ paths:
                 meta:
                   request_id: string
                   response_size: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
         401:
           description: UNAUTHORIZED
           content:
@@ -563,6 +744,43 @@ paths:
                 status: false
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request can't travel beyond the space-time boundary!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                status: false
+                message: "The data you're seeking is beyond the bounds of space!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+    delete:
+      tags:
+        - Member Data
+      summary: need ADMIN Authentication
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Success! Your request has safely landed back to Earth."
                 meta:
                   request_id: string
                   response_size: string
@@ -577,34 +795,28 @@ paths:
                 meta:
                   request_id: string
                   response_size: string
-  /member/{id}:
-    delete:
-      tags:
-        - Data member
-      summary: MENGHAPUS data member
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Akun berhasil dihapus!"
-        400:
-          description: BAD REQUEST
+        401:
+          description: UNAUTHORIZED
           content:
             application/json:
               example:
-                errors:
-                  message: "Data ... tidak valid"
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                status: false
+                message: "The data you're seeking is beyond the bounds of space!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
   /edukasi:
     get:
       tags:
