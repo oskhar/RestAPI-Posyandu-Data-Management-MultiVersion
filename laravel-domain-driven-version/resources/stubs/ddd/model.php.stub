@@ -3,11 +3,15 @@
 namespace {{ namespace }};
 
 {{ baseClassImport }}
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class {{ class }}{{ extends }}
 {
-    use SoftDeletes;
+    /**
+     * Atribut atau kolom yang boleh diubah.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
 
-    protected $casts = [];
+    ];
 }
