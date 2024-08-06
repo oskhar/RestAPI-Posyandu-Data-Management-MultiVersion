@@ -17,8 +17,7 @@ return new class extends Migration {
             $table->string('text');
             $table->string('route')->nullable();
             $table->string('icon')->nullable();
-            $table->foreignId('parent_id')->constrained('menus');
-            $table->boolean('has_child');
+            $table->foreignId('parent_id')->nullable()->constrained('menus');
             $table->timestamps();
         });
 
@@ -30,6 +29,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('menuses');
+        Schema::dropIfExists('menus');
     }
 };
