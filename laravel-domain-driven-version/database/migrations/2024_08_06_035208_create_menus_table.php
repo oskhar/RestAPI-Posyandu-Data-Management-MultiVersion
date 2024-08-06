@@ -12,13 +12,14 @@ return new class extends Migration {
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('admin_role_id')->constrained('admin_roles');
-            $table->string('address');
+            $table->string('text');
+            $table->string('route')->nullable();
+            $table->string('icon')->nullable();
+            $table->foreignId('parent_id')->constrained('menus');
+            $table->boolean('has_child');
             $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::enableForeignKeyConstraints();
@@ -29,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('menuses');
     }
 };

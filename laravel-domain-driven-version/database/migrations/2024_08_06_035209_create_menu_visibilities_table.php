@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -12,13 +13,11 @@ return new class extends Migration {
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('menu_visibilities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('admin_role_id')->constrained('admin_roles');
-            $table->string('address');
+            $table->foreignId('admin_role_id')->constrained()->primary();
+            $table->foreignId('menu_id')->constrained()->primary();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::enableForeignKeyConstraints();
@@ -29,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('menu_visibilities');
     }
 };
