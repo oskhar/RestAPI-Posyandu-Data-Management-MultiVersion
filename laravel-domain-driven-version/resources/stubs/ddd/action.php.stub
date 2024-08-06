@@ -3,12 +3,45 @@
 namespace {{ namespace }};
 
 use Lorisleiva\Actions\Concerns\AsAction;
+use Illuminate\Http\JsonResponse;
+use App\Infrastructure\API\Data\APIResponseData;
+use App\Infrastructure\API\Enums\APIStatusEnum;
+use App\Infrastructure\Services\APIResponseService;
 
 class {{ class }}{{ extends }}
 {
     use AsAction;
 
-    public function handle()
+    protected APIResponseService $apiResponse;
+
+    /**
+     * Create a new service instance.
+     * @param \App\Infrastructure\Services\APIResponseService $apiResponse
+     */
+    public function __construct(APIResponseService $apiResponse)
+    {
+        $this->apiResponse = $apiResponse;
+    }
+
+    /**
+     * Run the business processes.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function asController(): JsonResponse
+    {
+        $this->execute();
+
+        return $this->apiResponse->execute(
+            APIResponseData::from([]),
+            APIStatusEnum::BAD_REQUEST
+        );
+    }
+
+    /**
+     * Execute the business logic.
+     * @return mixed
+     */
+    public function execute()
     {
         //
     }
