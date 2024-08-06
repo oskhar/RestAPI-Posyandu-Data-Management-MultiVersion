@@ -1,53 +1,59 @@
 openapi: "3.0.2"
 info:
   title: API Posyandu Melati
-  version: "1.0"
+  version: "2.0"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []
 servers:
   - url: http://localhost:8000/api
 tags:
-  - name: Autentikasi admin
-    description: Untuk melakukan Autentikasi
-  - name: Autentikasi user
-    description: Untuk melakukan Autentikasi sebagai user
-  - name: Data user
-    description: Untuk mengola data user
-  - name: Data edukasi
-    description: Untuk mengola data edukasi
-  - name: Data berita acara
-    description: Untuk mengola data berita acara
-  - name: Data gambar
-    description: Untuk mengola data gambar
-  - name: Data posyandu
-    description: Untuk mengola data posyandu
-  - name: Data admin
-    description: Untuk mengola data admin
-  - name: Data Format 1
-    description: Untuk mengola data Format 1
-  - name: Data Format 2 A
-    description: Untuk mengola data Format 2 A
-  - name: Data statistik
-    description: Untuk memantau statistik posyandu
-  - name: Layanan Kader Gendong
-    description: Layanan untuk mengelola penugasan antar kader
-  - name: Layanan Resleting
-    description: Layanan remaja peduli stunting
-  - name: Layanan Penjualan
-    description: Layanan penjualan khusus posyandu
-  - name: Import excel
-    description: Fitur untuk mengimport data excel ke database
+  - name: Admin Authentication
+    description: For admin authentication
+  - name: Member Authentication
+    description: For Member authentication
+  - name: Member Data
+    description: For managing member data
+  - name: Educational Data
+    description: For managing educational data
+  - name: Event Report Data
+    description: For managing event report data
+  - name: Image Data
+    description: For managing image data
+  - name: Posyandu Data
+    description: For managing posyandu data
+  - name: Admin Data
+    description: For managing admin data
+  - name: Format 1 Data
+    description: For managing Format 1 data
+  - name: Format 2 A Data
+    description: For managing Format 2 A data
+  - name: Statistics Data
+    description: For monitoring posyandu statistics
+  - name: Kader Gendong Service
+    description: Service for managing task assignments between kader
+  - name: Resleting Service
+    description: Service for youth care for stunting
+  - name: Sales Service
+    description: Special sales service for posyandu
+  - name: Excel Import
+    description: Feature for importing Excel data into the database
 paths:
   /admin/login:
     post:
       tags:
-        - Autentikasi admin
+        - Admin Authentication
       summary: for GUEST
       requestBody:
-        description: Autentikasi admin untuk melakukan login
-        required: true
         content:
           application/json:
             example:
-              email_admin: "required|email"
+              email: "required|email"
               password: "required|string"
       responses:
         200:
@@ -61,7 +67,7 @@ paths:
                   admin:
                     full_name: "string"
                     email: "email"
-                    job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
+                    job_title: "string"
                     profile_picture: "link"
                     gender: "L|P"
                     address: "string"
@@ -69,7 +75,6 @@ paths:
                     phone_number: "string"
                   token:
                     access_token: "string"
-                    token_type: "Bearer"
                     expires_in: "integer|minute"
                 meta:
                   request_id: string
@@ -80,7 +85,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Incorrect email or password."
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -88,7 +93,7 @@ paths:
   /admin/refresh:
     post:
       tags:
-        - Autentikasi admin
+        - Admin Authentication
       summary: need ADMIN Authentication
       responses:
         201:
@@ -101,7 +106,6 @@ paths:
                 data:
                   token:
                     access_token: "string"
-                    token_type: "Bearer"
                     expires_in: "integer|minute"
                 meta:
                   request_id: string
@@ -112,7 +116,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "You haven't logged in!"
+                message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -120,7 +124,7 @@ paths:
   /admin/me:
     post:
       tags:
-        - Autentikasi admin
+        - Admin Authentication
       summary: need ADMIN Authentication
       responses:
         200:
@@ -134,7 +138,7 @@ paths:
                   admin:
                     full_name: "string"
                     email: "email"
-                    job_title: "PENANGGUNG JAWAB|KETUA|SEKRETARIS|BENDAHARA|PENDAFTARAN|PENIMBANGAN|PENCATATAN|PENYULUHAN|KERJASAMA KADER|PENJUAL"
+                    job_title: "string"
                     profile_picture: "link"
                     gender: "L|P"
                     address: "string"
@@ -149,7 +153,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "You haven't logged in!"
+                message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
                   request_id: string
@@ -157,7 +161,7 @@ paths:
   /admin/logout:
     post:
       tags:
-        - Autentikasi admin
+        - Admin Authentication
       summary: need ADMIN Authentication
       responses:
         200:
@@ -171,30 +175,79 @@ paths:
                   request_id: string
                   response_size: string
         401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /admin/reset-password:
+    post:
+      tags:
+        - Admin Authentication
+      summary: need ADMIN Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                old_password:
+                  type: string
+                new_password:
+                  type: string
+                confirm_password:
+                  type: string
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Success! Your request has safely landed back to Earth."
+                meta:
+                  request_id: string
+                  response_size: string
+        400:
           description: BAD REQUEST
           content:
             application/json:
               example:
                 status: false
-                message: "You haven't logged in!"
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
                   request_id: string
                   response_size: string
-  /register:
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /member/register:
     post:
       tags:
-        - Autentikasi user
+        - Member Authentication
       summary: for GUEST
       requestBody:
-        description: Autentikasi admin untuk melakukan login
         content:
           application/json:
             example:
-              full_name: "string"
-              email: "email"
-              birth_date: "date"
-              phone_number: "string"
+              full_name: "string|required"
+              email: "email|required|unique"
+              birth_date: "date|required"
+              phone_number: "string|required"
       responses:
         201:
           description: CREATED
@@ -212,104 +265,156 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Incorrect data input."
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
                   request_id: string
                   response_size: string
-  /user:
-    get:
+  /member/login:
+    post:
       tags:
-        - Data user
-      summary: MELIHAT seluruh akun milik user
+        - Member Authentication
+      summary: for GUEST
       requestBody:
-        description: Data untuk mengubah template pagination
-        required: true
         content:
           application/json:
             example:
-              search: "string"
-              length: "integer|required"
-              page: "integer"
+              email: "required|email"
+              password: "required|string"
       responses:
         200:
           description: OK
           content:
             application/json:
               example:
-                current_page: 2
+                status: true
+                message: "Login successful."
                 data:
-                  array:
-                    id: "integer"
-                    nama: "string"
-                    email: "string"
-                    password: "string"
-                    whatsapp: "string"
+                  member:
+                    full_name: "string"
+                    email: "email"
                     profile_picture: "link"
-                first_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
-                from: 2
-                last_page: 8
-                last_page_url: "http://localhost:8000/api/resleting/tantangan?page=8"
-                links: Array(10) [ {…}, {…}, {…}, … ]
-                next_page_url: "http://localhost:8000/api/resleting/tantangan?page=3"
-                path: "http://localhost:8000/api/resleting/tantangan"
-                per_page: 1
-                prev_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
-                to: 2
-                total: 8
+                    gender: "L|P"
+                    birth_date: "date"
+                    phone_number: "string"
+                    poin: "integer"
+                  token:
+                    access_token: "string"
+                    expires_in: "integer|minute"
+                meta:
+                  request_id: string
+                  response_size: string
         400:
           description: BAD REQUEST
           content:
             application/json:
               example:
-                errors:
-                  message: "Data ... tidak valid"
-    put:
+                status: false
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /member/refresh:
+    post:
       tags:
-        - Autentikasi user
-      summary: MELAKUKAN perubahan data user
-      requestBody:
-        description: Data user yang ingin diubah
-        required: true
-        content:
-          application/json:
-            example:
-              nama: "string"
-              email: "string"
-              password: "string"
-              whatsapp: "string"
-              foto_profile: "Blob base64"
+        - Member Authentication
+      summary: need MEMBER Authentication
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Refresh access token successful."
+                data:
+                  token:
+                    access_token: "string"
+                    expires_in: "integer|minute"
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: UNAUTHORIZE
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /member/me:
+    post:
+      tags:
+        - Member Authentication
+      summary: need MEMBER Authentication
       responses:
         200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Password berhasil diubah"
-        400:
-          description: BAD REQUEST
+          description: CREATED
           content:
             application/json:
               example:
-                errors:
-                  message: "Data ... tidak valid"
-  /user/reset-password:
-    put:
+                status: true
+                message: "Get self MEMBER data successful."
+                data:
+                  member:
+                    full_name: "string"
+                    email: "email"
+                    profile_picture: "link"
+                    gender: "L|P"
+                    birth_date: "date"
+                    phone_number: "string"
+                    poin: "integer"
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: UNAUTHORIZE
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /member/logout:
+    post:
       tags:
-        - Autentikasi user
+        - Member Authentication
+      summary: need MEMBER Authentication
+      responses:
+        200:
+          description: CREATED
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Logout successful."
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /member/reset-password:
+    post:
+      tags:
+        - Member Authentication
       summary: MELAKUKAN perubahan password
       requestBody:
-        description: Autentikasi user untuk melakukan login
-        required: true
         content:
           application/json:
             schema:
@@ -323,32 +428,160 @@ paths:
                   type: string
       responses:
         200:
-          description: OK
+          description: CREATED
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
               example:
-                success:
-                  message: "Password berhasil diubah"
+                status: true
+                message: "Success! Your request has safely landed back to Earth."
+                meta:
+                  request_id: string
+                  response_size: string
         400:
           description: BAD REQUEST
           content:
             application/json:
               example:
-                errors:
-                  message: "Data ... tidak valid"
-  /user/{id}:
+                status: false
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /member:
+    get:
+      tags:
+        - Member Data
+      summary: need ADMIN Authentication
+      parameters:
+        - name: length
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - terbaru
+              - terlama
+              - a-z
+              - z-a
+            default: terbaru
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Success! Your request has safely landed back to Earth."
+                data:
+                  member:
+                    full_name: "string"
+                    profile_picture: "link"
+                    gender: "L|P"
+                    birth_date: "date"
+                    phone_number: "string"
+                  pagination:
+                    total: "integer"
+                    per_page: "integer"
+                    current_page: "integer"
+                    total_pages: "integer"
+                    links:
+                      next: "string"
+                      prev: "string"
+                      first: "string"
+                      last: "string"
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+    put:
+      tags:
+        - Member Data
+      summary: need MEMBER Authentication
+      requestBody:
+        content:
+          application/json:
+            example:
+              full_name: "string|required"
+              email: "email|unique|required"
+              gender: "L|P|required"
+              birth_date: "date|required"
+              profile_picture: "link"
+              phone_number: "string"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                status: true
+                message: "Success! Your request has safely landed back to Earth."
+                meta:
+                  request_id: string
+                  response_size: string
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
+                errors: "array<string>"
+                meta:
+                  request_id: string
+                  response_size: string
+  /member/{id}:
     delete:
       tags:
-        - Data user
-      summary: MENGHAPUS data user
+        - Data member
+      summary: MENGHAPUS data member
       responses:
         200:
           description: OK
@@ -378,8 +611,6 @@ paths:
         - Data edukasi
       summary: MENDAPATKAN data edukasi
       requestBody:
-        description: Data edukasi untuk menghapus data edukasi
-        required: true
         content:
           application/json:
             schema:
@@ -411,7 +642,7 @@ paths:
                       properties:
                         id_edukasi:
                           type: string
-                        email_admin:
+                        email:
                           type: string
                         nama_lengkap:
                           type: string
@@ -444,8 +675,6 @@ paths:
         - Data edukasi
       summary: MENAMBAHKAN data edukasi
       requestBody:
-        description: Data edukasi untuk menambahkan data edukasi
-        required: true
         content:
           application/json:
             schema:
@@ -487,8 +716,6 @@ paths:
         - Data edukasi
       summary: MENGUBAH data edukasi
       requestBody:
-        description: Data edukasi untuk mengubah data edukasi
-        required: true
         content:
           application/json:
             schema:
@@ -537,8 +764,6 @@ paths:
         - Data edukasi
       summary: MENGHAPUS data edukasi
       requestBody:
-        description: Data edukasi untuk menghapus data edukasi
-        required: true
         content:
           application/json:
             schema:
@@ -578,8 +803,6 @@ paths:
         - Data berita acara
       summary: MENDAPATKAN data berita
       requestBody:
-        description: Data berita untuk menghapus data berita
-        required: true
         content:
           application/json:
             schema:
@@ -611,7 +834,7 @@ paths:
                       properties:
                         id_berita:
                           type: integer
-                        email_admin:
+                        email:
                           type: string
                         nama_lengkap:
                           type: string
@@ -644,8 +867,6 @@ paths:
         - Data berita acara
       summary: MENAMBAHKAN data berita
       requestBody:
-        description: Data berita untuk menambahkan data berita
-        required: true
         content:
           application/json:
             schema:
@@ -689,8 +910,6 @@ paths:
         - Data berita acara
       summary: MENGUBAH data berita
       requestBody:
-        description: Data berita untuk mengubah data berita
-        required: true
         content:
           application/json:
             schema:
@@ -741,8 +960,6 @@ paths:
         - Data berita acara
       summary: MENGHAPUS data berita
       requestBody:
-        description: Data berita untuk menghapus data berita
-        required: true
         content:
           application/json:
             schema:
@@ -783,8 +1000,6 @@ paths:
       summary: MENDAPATKAN data gambar
 
       requestBody:
-        description: Data gambar untuk menghapus data gambar
-        required: true
         content:
           application/json:
             schema:
@@ -812,7 +1027,7 @@ paths:
                     items:
                       type: object
                       properties:
-                        email_admin:
+                        email:
                           type: string
                         nama_lengkap:
                           type: string
@@ -839,8 +1054,6 @@ paths:
         - Data gambar
       summary: MENAMBAHKAN data gambar
       requestBody:
-        description: Data gambar untuk menambahkan data gambar
-        required: true
         content:
           application/json:
             schema:
@@ -878,8 +1091,6 @@ paths:
         - Data gambar
       summary: MENGHAPUS data gambar
       requestBody:
-        description: Data gambar untuk menghapus data gambar
-        required: true
         content:
           application/json:
             schema:
@@ -920,8 +1131,6 @@ paths:
       summary: MENDAPATKAN data posyandu
 
       requestBody:
-        description: Data posyandu untuk menghapus data posyandu
-        required: true
         content:
           application/json:
             schema:
@@ -973,8 +1182,6 @@ paths:
         - Data posyandu
       summary: MENGUBAH data posyandu
       requestBody:
-        description: Data posyandu untuk mengubah data posyandu
-        required: true
         content:
           application/json:
             schema:
@@ -1038,8 +1245,6 @@ paths:
       summary: MENDAPATKAN data admin
 
       requestBody:
-        description: Data admin untuk menghapus data admin
-        required: true
         content:
           application/json:
             schema:
@@ -1068,7 +1273,7 @@ paths:
                           type: integer
                         id_jabatan:
                           type: integer
-                        email_admin:
+                        email:
                           type: string
                         nama_lengkap:
                           type: string
@@ -1101,8 +1306,6 @@ paths:
         - Data admin
       summary: MENAMBAHKAN data admin
       requestBody:
-        description: Data admin untuk menambahkan data admin
-        required: true
         content:
           application/json:
             schema:
@@ -1110,7 +1313,7 @@ paths:
               properties:
                 id_jabatan:
                   type: integer
-                email_admin:
+                email:
                   type: string
                 nama_lengkap:
                   type: string
@@ -1144,8 +1347,6 @@ paths:
         - Data admin
       summary: MENGUBAH data admin
       requestBody:
-        description: Data admin untuk mengubah data admin
-        required: true
         content:
           application/json:
             schema:
@@ -1155,7 +1356,7 @@ paths:
                   type: integer
                 id_jabatan:
                   type: integer
-                email_admin:
+                email:
                   type: string
                 password:
                   type: object
@@ -1213,8 +1414,6 @@ paths:
         - Data admin
       summary: MENGHAPUS data admin
       requestBody:
-        description: Data admin untuk menghapus data admin
-        required: true
         content:
           application/json:
             schema:
@@ -1254,8 +1453,6 @@ paths:
         - Data Format 1
       summary: MENDAPATKAN data format-a
       requestBody:
-        description: Data Format 1 untuk menghapus data format-a
-        required: true
         content:
           application/json:
             schema:
@@ -1336,8 +1533,6 @@ paths:
         - Data Format 1
       summary: MENAMBAHKAN data format-a
       requestBody:
-        description: Data Format 1 untuk menambahkan data format-a
-        required: true
         content:
           application/json:
             schema:
@@ -1387,8 +1582,6 @@ paths:
         - Data Format 1
       summary: MENGUBAH data format-a
       requestBody:
-        description: Data Format 1 untuk mengubah data format-a
-        required: true
         content:
           application/json:
             schema:
@@ -1447,8 +1640,6 @@ paths:
         - Data Format 1
       summary: MENGHAPUS data format-a
       requestBody:
-        description: Data Format 1 untuk menghapus data format-a
-        required: true
         content:
           application/json:
             schema:
@@ -1488,8 +1679,6 @@ paths:
         - Data Format 2 A
       summary: MENDAPATKAN data format-ba
       requestBody:
-        description: Data Format 2 A untuk menghapus data format-ba
-        required: true
         content:
           application/json:
             schema:
@@ -1555,8 +1744,6 @@ paths:
         - Data Format 2 A
       summary: MENAMBAHKAN data format-ba
       requestBody:
-        description: Data Format 2 A untuk menambahkan data format-ba
-        required: true
         content:
           application/json:
             schema:
@@ -1601,8 +1788,6 @@ paths:
         - Data Format 2 A
       summary: MENDAPATKAN data format-b
       requestBody:
-        description: Data Format 2 A untuk menghapus data format-b
-        required: true
         content:
           application/json:
             schema:
@@ -1673,8 +1858,6 @@ paths:
       summary: MENDAPATKAN data statistik
 
       requestBody:
-        description: Data statistik untuk menghapus data statistik
-        required: true
         content:
           application/json:
             schema:
@@ -1730,8 +1913,6 @@ paths:
         - Layanan Kader Gendong
       summary: MELIHAT riwayat pencetakan surat
       requestBody:
-        description: Data untuk mengubah template pagination
-        required: true
         content:
           application/json:
             example:
@@ -1783,8 +1964,6 @@ paths:
         - Layanan Kader Gendong
       summary: MENAMBAHKAN data surat kader
       requestBody:
-        description: Data surat untuk mencetak surat
-        required: true
         content:
           application/json:
             schema:
@@ -1835,8 +2014,6 @@ paths:
         - Layanan Kader Gendong
       summary: MENAMBAHKAN data surat kader
       requestBody:
-        description: Data surat untuk mencetak surat
-        required: true
         content:
           application/json:
             schema:
@@ -1887,8 +2064,6 @@ paths:
         - Layanan Kader Gendong
       summary: MELIHAT list draf surat
       requestBody:
-        description: Data untuk mengubah template pagination
-        required: true
         content:
           application/json:
             example:
@@ -1947,8 +2122,6 @@ paths:
         - Layanan Kader Gendong
       summary: MENAMBAHKAN data draf surat
       requestBody:
-        description: Data surat untuk ditambahkan ke draf
-        required: true
         content:
           application/json:
             schema:
@@ -1995,8 +2168,6 @@ paths:
         - Layanan Kader Gendong
       summary: MENGUBAH data draf surat
       requestBody:
-        description: Data surat untuk update draf
-        required: true
         content:
           application/json:
             schema:
@@ -2099,8 +2270,6 @@ paths:
         - Layanan Resleting
       summary: MELIHAT seluruh tantangan resleting
       requestBody:
-        description: Data untuk mengubah template pagination
-        required: true
         content:
           application/json:
             example:
@@ -2153,8 +2322,6 @@ paths:
         - Layanan Resleting
       summary: MENAMBAHKAN tantangan resleting
       requestBody:
-        description: Data surat untuk ditambahkan ke draf
-        required: true
         content:
           application/json:
             schema:
@@ -2207,7 +2374,7 @@ paths:
                 overview: "string"
                 tanggal_mulai: "date"
                 tanggal_selesai: "date"
-                user_submitted: "boolean|optional"
+                member_submitted: "boolean|optional"
         400:
           description: BAD REQUEST
           content:
@@ -2227,8 +2394,6 @@ paths:
         - Layanan Resleting
       summary: MENGUBAH data tantangan
       requestBody:
-        description: Data untuk update
-        required: true
         content:
           application/json:
             schema:
@@ -2297,8 +2462,6 @@ paths:
         - Layanan Resleting
       summary: MELIHAT semua submission
       requestBody:
-        description: Data untuk mengubah template pagination
-        required: true
         content:
           application/json:
             example:
@@ -2352,8 +2515,6 @@ paths:
         - Layanan Resleting
       summary: MENAMBAHKAN submission hasil
       requestBody:
-        description: Data surat untuk ditambahkan ke draf
-        required: true
         content:
           application/json:
             schema:
@@ -2392,8 +2553,6 @@ paths:
         - Layanan Resleting
       summary: MENGUBAH data submission
       requestBody:
-        description: Data surat untuk update draf
-        required: true
         content:
           application/json:
             schema:
@@ -2452,14 +2611,12 @@ paths:
               example:
                 errors:
                   message: "Data ... tidak valid"
-  /user/tantangan:
+  /member/tantangan:
     get:
       tags:
         - Layanan Resleting
       summary: MELIHAT seluruh tantangan resleting
       requestBody:
-        description: Data untuk mengubah template pagination
-        required: true
         content:
           application/json:
             example:
@@ -2513,8 +2670,6 @@ paths:
         - Layanan Penjualan
       summary: MELIHAT semua produk
       requestBody:
-        description: Data untuk mengubah template pagination
-        required: true
         content:
           application/json:
             example:
@@ -2570,8 +2725,6 @@ paths:
         - Layanan Penjualan
       summary: MENAMBAHKAN produk hasil
       requestBody:
-        description: Data surat untuk ditambahkan ke draf
-        required: true
         content:
           application/json:
             schema:
@@ -2642,8 +2795,6 @@ paths:
         - Layanan Penjualan
       summary: MENGUBAH data produk
       requestBody:
-        description: Data surat untuk update draf
-        required: true
         content:
           application/json:
             schema:
@@ -2787,8 +2938,6 @@ paths:
         - Import excel
       summary: MELAKUKAN import data bayi
       requestBody:
-        description: File excel yang dikirim
-        required: true
         content:
           multipart/form-data:
             example:
@@ -2814,8 +2963,6 @@ paths:
         - Import excel
       summary: MELAKUKAN import data bayi
       requestBody:
-        description: File excel yang dikirim
-        required: true
         content:
           multipart/form-data:
             example:
