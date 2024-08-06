@@ -1,7 +1,11 @@
 models:
+  admin_roles:
+    name: string
+    timestamps
+
   admins:
     user_id: id foreign:users.id
-    job_title: enum:PENANGGUNG JAWAB,KETUA,SEKRETARIS,BENDAHARA,PENDAFTARAN,PENIMBANGAN,PENCATATAN,PENYULUHAN,KERJASAMA KADER,PENJUAL
+    admin_role_id: id foreign:admin_roles.id
     address: string
     softDeletes
     timestamps
@@ -249,4 +253,17 @@ models:
     exclusive_breastfeeding: boolean default:false
     vitamins_a: boolean nullable
     tetanus_neonatorum: boolean nullable
+    timestamps
+
+  menus:
+    text: string
+    route: string nullable
+    icon: string nullable
+    parent_id: id foreign:menus.id
+    has_child: boolean
+    timestamps
+
+  menu_visibilities:
+    admin_role_id: id foreign:admin_roles.id primary
+    menu_id: id foreign:menus.id primary
     timestamps
