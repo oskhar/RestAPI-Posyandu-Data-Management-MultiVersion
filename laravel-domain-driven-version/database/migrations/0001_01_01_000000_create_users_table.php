@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', ['member', 'admin']);
-            $table->enum('gender', ['L', 'P']);
+            $table->enum('gender', ['l', 'p']);
             $table->string('profile_picture')->nullable();
             $table->string('phone_number')->nullable();
             $table->date('birth_date')->nullable();
