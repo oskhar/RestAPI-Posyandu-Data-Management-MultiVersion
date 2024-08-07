@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\admin_roles;
+use App\Models\job_titles;
 
 class AdminRolesFactory extends Factory
 {

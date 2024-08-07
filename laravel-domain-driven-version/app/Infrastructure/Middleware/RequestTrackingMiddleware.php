@@ -16,13 +16,9 @@ class RequestTrackingMiddleware
 
     public function handle(Request $request, Closure $next)
     {
-        $response = $next($request);
         $requestId = (string) Str::uuid();
-        $responseSize = strlen($response->getContent());
+        $request->headers->set('X-Request-ID', $requestId);
 
-        $response->headers->set('X-Request-ID', $requestId);
-        $response->headers->set('X-Response-Size', $responseSize);
-
-        return $response;
+        return $next($request);
     }
 }

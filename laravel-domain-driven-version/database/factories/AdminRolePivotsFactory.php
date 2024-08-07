@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Admin;
 use App\Models\AdminRole;
-use App\Models\admin_role_pivots;
+use App\Models\job_title_pivots;
 
 class AdminRolePivotsFactory extends Factory
 {
@@ -24,7 +24,7 @@ class AdminRolePivotsFactory extends Factory
     {
         return [
             'admin_id' => Admin::factory(),
-            'admin_role_id' => AdminRole::factory(),
+            'job_title_id' => AdminRole::factory(),
         ];
     }
 }

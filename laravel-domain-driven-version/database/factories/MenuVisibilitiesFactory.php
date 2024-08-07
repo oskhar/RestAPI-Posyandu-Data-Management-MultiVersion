@@ -23,7 +23,7 @@ class MenuVisibilitiesFactory extends Factory
     public function definition(): array
     {
         return [
-            'admin_role_id' => AdminRole::factory(),
+            'job_title_id' => AdminRole::factory(),
             'menu_id' => Menu::factory(),
         ];
     }
