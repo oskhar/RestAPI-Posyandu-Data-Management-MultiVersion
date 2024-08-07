@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('admin_role_id')->constrained('admin_roles');
+            $table->foreignId('job_title_id')->constrained('job_titles');
             $table->string('address');
             $table->timestamps();
             $table->softDeletes();
