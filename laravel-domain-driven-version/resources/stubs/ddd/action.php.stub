@@ -2,25 +2,27 @@
 
 namespace {{ namespace }};
 
-use Lorisleiva\Actions\Concerns\AsAction;
-use Illuminate\Http\JsonResponse;
 use App\Infrastructure\API\Data\APIResponseData;
 use App\Infrastructure\API\Enums\APIStatusEnum;
+use App\Infrastructure\Exceptions\APIResponseException;
 use App\Infrastructure\Services\APIResponseService;
+use Illuminate\Http\JsonResponse;
+use Lorisleiva\Actions\Concerns\AsAction;
 
 class {{ class }}{{ extends }}
 {
     use AsAction;
 
-    protected APIResponseService $apiResponse;
+    protected $errors = [];
+    protected APIResponseService $response;
 
     /**
      * Create a new service instance.
-     * @param \App\Infrastructure\Services\APIResponseService $apiResponse
+     * @param \App\Infrastructure\Services\APIResponseService $response
      */
-    public function __construct(APIResponseService $apiResponse)
+    public function __construct(APIResponseService $response)
     {
-        $this->apiResponse = $apiResponse;
+        $this->response = $response;
     }
 
     /**
@@ -29,11 +31,11 @@ class {{ class }}{{ extends }}
      */
     public function asController(): JsonResponse
     {
-        $this->execute();
+        $user = $this->execute();
 
-        return $this->apiResponse->execute(
-            APIResponseData::from([]),
-            APIStatusEnum::BAD_REQUEST
+        return ($this->response)(
+            APIResponseData::from(),
+            APIStatusEnum::SUCCESS
         );
     }
 
@@ -41,8 +43,19 @@ class {{ class }}{{ extends }}
      * Execute the business logic.
      * @return mixed
      */
-    public function execute()
+    public function execute(): mixed
     {
-        //
+        try {
+            //
+
+        } catch (\Exception $exception) {
+
+            throw new APIResponseException(
+                $this->errors,
+                $exception,
+                $this->response
+            );
+
+        }
     }
 }
