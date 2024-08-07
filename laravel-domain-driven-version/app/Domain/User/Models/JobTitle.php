@@ -3,20 +3,15 @@
 namespace Domain\User\Models;
 
 use Domain\Shared\Models\BaseModel;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Admin extends BaseModel
+class JobTitle extends BaseModel
 {
-    use SoftDeletes;
-
     /**
      * Atribut atau kolom yang boleh diubah.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'job_title_id',
-        'address',
+        'name',
     ];
 }

@@ -1,8 +1,22 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::prefix('/v1')
+    ->group(function () {
+        /**
+         * Public areas
+         */
+        foreach (glob(base_path('routes/domain/v1/*/public.php')) as $route) {
+            require $route;
+        }
+
+        /**
+         * Sanctum authentication needed
+         */
+        Route::middleware('auth:sanctum')->group(function () {
+            foreach (glob(base_path('routes/domain/v1/*/auth.php')) as $route) {
+                require $route;
+            }
+        });
+    });
