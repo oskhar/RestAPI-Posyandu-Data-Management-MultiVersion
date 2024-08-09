@@ -2,28 +2,27 @@
 
 namespace App\Infrastructure\Exceptions;
 
-use App\Infrastructure\API\Data\APIResponseData;
 use App\Infrastructure\API\Enums\APIStatusEnum;
-use App\Infrastructure\Services\APIResponseService;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class APIResponseException extends HttpResponseException
+class APIResponseException extends \Exception
 {
+    protected array $data;
+    protected APIStatusEnum $status;
 
-    public function __construct(array $errors, \Exception $exception, APIResponseService $response, APIStatusEnum $status = APIStatusEnum::BAD_REQUEST)
+    public function __construct(array $data, APIStatusEnum $status = APIStatusEnum::BAD_REQUEST)
     {
-        if (!empty($exception->getMessage())) {
-            $errors[] = $exception->getMessage();
-            $status = APIStatusEnum::INTERNAL_SERVER_ERROR;
-        }
-        return parent::__construct(
-            $response(
-                APIResponseData::from([
-                    "status" => false,
-                    "errors" => $errors
-                ]),
-                $status
-            )
-        );
+        $this->data = $data;
+        $this->status = $status;
+        parent::__construct('', 0, null);
+    }
+
+    public function getAllMessage()
+    {
+        return $this->data;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
