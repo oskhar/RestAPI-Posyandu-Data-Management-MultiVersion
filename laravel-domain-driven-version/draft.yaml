@@ -1,11 +1,11 @@
 models:
-  admin_roles:
+  job_titles:
     name: string
     timestamps
 
   admins:
     user_id: id foreign:users.id
-    admin_role_id: id foreign:admin_roles.id
+    job_title_id: id foreign:job_titles.id
     address: string
     softDeletes
     timestamps
@@ -264,6 +264,6 @@ models:
     timestamps
 
   menu_visibilities:
-    admin_role_id: id foreign:admin_roles.id primary
+    job_title_id: id foreign:job_titles.id primary
     menu_id: id foreign:menus.id primary
     timestamps

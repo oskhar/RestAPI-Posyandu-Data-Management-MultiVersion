@@ -35,34 +35,19 @@ class InfrastructureMiddlewareCommand extends Command
      */
     public function handle()
     {
-        // Get the middleware name from the input argument
         $middlewareName = $this->argument('name');
-
-        // Define the path to the stub file
-        $stubPath = resource_path('stubs/infrastructure/middleware.stub');
-
-        // Define the target path for the new middleware file
+        $stubPath = resource_path('stubs/infrastructure/middleware.php.stub');
         $targetPath = app_path("Infrastructure/Middleware/{$middlewareName}.php");
 
-        // Check if the middleware already exists
         if (File::exists($targetPath)) {
             $this->error("Middleware {$middlewareName} already exists!");
             return 1;
         }
 
-        // Get the contents of the stub file
         $stubContent = File::get($stubPath);
-
-        // Replace placeholder with the middleware name
         $middlewareContent = str_replace('{{ class }}', $middlewareName, $stubContent);
-
-        // Ensure the directory exists
         File::ensureDirectoryExists(dirname($targetPath));
-
-        // Create the middleware file
         File::put($targetPath, $middlewareContent);
-
-        // Output success message
         $this->info("Middleware {$middlewareName} created successfully.");
 
         return 0;
