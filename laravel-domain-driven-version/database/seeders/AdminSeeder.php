@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
         $userId = DB::table('users')->insertGetId([
             'full_name' => 'Admin User',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('TesPassword123'),
             'role' => 'admin',
             'gender' => 'l',
             'profile_picture' => null,

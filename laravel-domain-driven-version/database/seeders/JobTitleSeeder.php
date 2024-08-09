@@ -24,6 +24,7 @@ class JobTitleSeeder extends Seeder
             'kerjasama kader',
             'penjual',
         ];
+
         for ($i = 0; $i < count($jobList); $i++) {
             DB::table('job_titles')->insert([
                 'name' => $jobList[$i],
