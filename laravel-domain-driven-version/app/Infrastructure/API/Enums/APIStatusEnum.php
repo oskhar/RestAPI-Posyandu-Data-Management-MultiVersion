@@ -12,4 +12,18 @@ enum APIStatusEnum: int
     case NOT_FOUND = 404;
     case UNPROCESSABLE_ENTITY = 422;
     case INTERNAL_SERVER_ERROR = 500;
+
+    public function getMessage(): string
+    {
+        return match ($this) {
+            self::SUCCESS => "Success! Your request has safely landed back to Earth.",
+            self::CREATED => "New entity launched into the cosmos.",
+            self::BAD_REQUEST => "Your request veered off course and couldn't escape Earth's gravity!",
+            self::UNAUTHORIZED => "Your credentials don't pass the cosmic gatekeeper!",
+            self::FORBIDDEN => "Your request can't travel beyond the space-time boundary!",
+            self::NOT_FOUND => "The data you're seeking is beyond the bounds of space!",
+            self::UNPROCESSABLE_ENTITY => "Data anomaly detected. Unable to process your request in this dimension!",
+            self::INTERNAL_SERVER_ERROR => "Galactic disruption. An unexpected cosmic event occurred!",
+        };
+    }
 }
