@@ -11,7 +11,7 @@ components:
 security:
   - BearerAuth: []
 servers:
-  - url: http://localhost:8000/api
+  - url: http://localhost:8000/api/v1
 tags:
   - name: Admin Authentication
     description: For admin authentication
@@ -53,8 +53,14 @@ paths:
         content:
           application/json:
             example:
-              email: "required|email"
-              password: "required|string"
+              example:
+                email: "admin@example.com"
+                password: "TesPassword123"
+                remember_me: false
+              rule:
+                email: "required|email"
+                password: "required|string"
+                remember_me: "boolean"
       responses:
         200:
           description: OK
@@ -75,10 +81,10 @@ paths:
                     phone_number: "string"
                   token:
                     access_token: "string"
-                    expires_in: "integer|minute"
+                    expires_at: "date"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
@@ -88,16 +94,16 @@ paths:
                 message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /admin/refresh:
     post:
       tags:
         - Admin Authentication
       summary: need ADMIN Authentication
       responses:
-        201:
-          description: CREATED
+        200:
+          description: OK
           content:
             application/json:
               example:
@@ -106,10 +112,10 @@ paths:
                 data:
                   token:
                     access_token: "string"
-                    expires_in: "integer|minute"
+                    expires_at: "date"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZE
           content:
@@ -119,8 +125,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -130,8 +136,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /admin/me:
     post:
       tags:
@@ -139,7 +145,7 @@ paths:
       summary: need ADMIN Authentication
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
@@ -156,8 +162,8 @@ paths:
                     birth_date: "date"
                     phone_number: "string"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZE
           content:
@@ -167,8 +173,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -178,8 +184,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /admin/logout:
     post:
       tags:
@@ -187,15 +193,15 @@ paths:
       summary: need ADMIN Authentication
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
                 status: true
                 message: "Logout successful."
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZED
           content:
@@ -205,8 +211,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -216,8 +222,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /admin/reset-password:
     post:
       tags:
@@ -226,26 +232,30 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                old_password:
-                  type: string
-                new_password:
-                  type: string
-                confirm_password:
-                  type: string
+            example:
+              example:
+                old_password: "TesPassword123"
+                new_password: "UbahPassword9"
+                new_password_confirmation: "UbahPassword9"
+              example_backup:
+                old_password: "UbahPassword9"
+                new_password: "TesPassword123"
+                new_password_confirmation: "TesPassword123"
+              rule:
+                old_password: "string|required|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/"
+                new_password: "string|required|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/"
+                new_password_confirmation: "string|required|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/"
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
                 status: true
                 message: "Success! Your request has safely landed back to Earth."
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
@@ -255,8 +265,8 @@ paths:
                 message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZED
           content:
@@ -266,8 +276,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -277,8 +287,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /member/register:
     post:
       tags:
@@ -301,8 +311,8 @@ paths:
                 status: true
                 message: "Registration successful."
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
@@ -312,8 +322,8 @@ paths:
                 message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /member/login:
     post:
       tags:
@@ -323,8 +333,14 @@ paths:
         content:
           application/json:
             example:
-              email: "required|email"
-              password: "required|string"
+              example:
+                email: "member@example.com"
+                password: "TesMember123"
+                remember_me: false
+              rule:
+                email: "required|email"
+                password: "required|string"
+                remember_me: "boolean"
       responses:
         200:
           description: OK
@@ -344,10 +360,10 @@ paths:
                     poin: "integer"
                   token:
                     access_token: "string"
-                    expires_in: "integer|minute"
+                    expires_at: "date"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
@@ -357,16 +373,16 @@ paths:
                 message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /member/refresh:
     post:
       tags:
         - Member Authentication
       summary: need MEMBER Authentication
       responses:
-        201:
-          description: CREATED
+        200:
+          description: OK
           content:
             application/json:
               example:
@@ -375,10 +391,10 @@ paths:
                 data:
                   token:
                     access_token: "string"
-                    expires_in: "integer|minute"
+                    expires_at: "date"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZE
           content:
@@ -388,8 +404,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -399,8 +415,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /member/me:
     post:
       tags:
@@ -408,7 +424,7 @@ paths:
       summary: need MEMBER Authentication
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
@@ -424,8 +440,8 @@ paths:
                     phone_number: "string"
                     poin: "integer"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZE
           content:
@@ -435,8 +451,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -446,8 +462,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /member/logout:
     post:
       tags:
@@ -455,15 +471,15 @@ paths:
       summary: need MEMBER Authentication
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
                 status: true
                 message: "Logout successful."
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZED
           content:
@@ -473,8 +489,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -484,8 +500,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /member/reset-password:
     post:
       tags:
@@ -494,26 +510,30 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                old_password:
-                  type: string
-                new_password:
-                  type: string
-                confirm_password:
-                  type: string
+            example:
+              example:
+                old_password: "TesMember123"
+                new_password: "TesPassword124"
+                new_password_confirmation: "TesPassword124"
+              example_backup:
+                old_password: "TesPassword1234"
+                new_password: "TesMember123"
+                new_password_confirmation: "TesMember123"
+              rule:
+                old_password: "string|required|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/"
+                new_password: "string|required|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/"
+                new_password_confirmation: "string|required|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/"
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               example:
                 status: true
                 message: "Success! Your request has safely landed back to Earth."
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
@@ -523,8 +543,8 @@ paths:
                 message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZED
           content:
@@ -534,8 +554,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -545,8 +565,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /member:
     get:
       tags:
@@ -606,8 +626,8 @@ paths:
                       first: "string"
                       last: "string"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
@@ -617,8 +637,8 @@ paths:
                 message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZED
           content:
@@ -628,8 +648,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -639,8 +659,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
     put:
       tags:
         - Member Data
@@ -664,8 +684,8 @@ paths:
                 status: true
                 message: "Success! Your request has safely landed back to Earth."
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
@@ -675,8 +695,8 @@ paths:
                 message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZED
           content:
@@ -686,8 +706,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -697,8 +717,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /member/{id}:
     put:
       tags:
@@ -723,8 +743,8 @@ paths:
                 status: true
                 message: "Success! Your request has safely landed back to Earth."
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
@@ -734,8 +754,8 @@ paths:
                 message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZED
           content:
@@ -745,8 +765,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         403:
           description: FORBIDDEN
           content:
@@ -756,8 +776,8 @@ paths:
                 message: "Your request can't travel beyond the space-time boundary!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         404:
           description: NOT FOUND
           content:
@@ -767,8 +787,8 @@ paths:
                 message: "The data you're seeking is beyond the bounds of space!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
     delete:
       tags:
         - Member Data
@@ -782,8 +802,8 @@ paths:
                 status: true
                 message: "Success! Your request has safely landed back to Earth."
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
@@ -793,8 +813,8 @@ paths:
                 message: "Your request veered off course and couldn't escape Earth's gravity!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         401:
           description: UNAUTHORIZED
           content:
@@ -804,8 +824,8 @@ paths:
                 message: "Your credentials don't pass the cosmic gatekeeper!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
         404:
           description: NOT FOUND
           content:
@@ -815,8 +835,8 @@ paths:
                 message: "The data you're seeking is beyond the bounds of space!"
                 errors: "array<string>"
                 meta:
-                  request_id: string
-                  response_size: string
+                  request_id: "string"
+                  response_size: "integer|byte"
   /edukasi:
     get:
       tags:
@@ -2399,7 +2419,7 @@ paths:
                 kalimat_penutup: "text"
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               schema:
@@ -2426,7 +2446,7 @@ paths:
       summary: MENGHAPUS data dari draf surat
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               schema:
@@ -2454,7 +2474,7 @@ paths:
       summary: MEMINDAHKAN draf surat ke surat
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               schema:
@@ -2620,7 +2640,7 @@ paths:
                 tanggal_selesai: "date"
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               schema:
@@ -2647,7 +2667,7 @@ paths:
       summary: MENGHAPUS tantangan resleting
       responses:
         200:
-          description: CREATED
+          description: OK
           content:
             application/json:
               schema:
