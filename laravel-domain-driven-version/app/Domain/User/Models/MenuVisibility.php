@@ -19,7 +19,7 @@ class MenuVisibility extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
-        'admin_role_id',
+        'job_title_id',
         'menu_id',
     ];
 }
