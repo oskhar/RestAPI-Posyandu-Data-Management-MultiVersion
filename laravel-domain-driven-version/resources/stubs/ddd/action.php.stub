@@ -31,11 +31,10 @@ class {{ class }}{{ extends }}
      */
     public function asController(): JsonResponse
     {
-        $user = $this->execute();
+        $this->execute();
 
         return ($this->response)(
-            APIResponseData::from(),
-            APIStatusEnum::SUCCESS
+            APIResponseData::from()
         );
     }
 
@@ -45,17 +44,12 @@ class {{ class }}{{ extends }}
      */
     public function execute(): mixed
     {
-        try {
-            //
+        //
 
-        } catch (\Exception $exception) {
-
-            throw new APIResponseException(
-                $this->errors,
-                $exception,
-                $this->response
-            );
-
+        if (!empty($this->errors)) {
+            throw new APIResponseException($this->errors);
         }
+
+        return;
     }
 }
