@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('job_title_id')->constrained('job_titles');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

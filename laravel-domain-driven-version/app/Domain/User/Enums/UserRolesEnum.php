@@ -2,7 +2,8 @@
 
 namespace Domain\User\Enums;
 
-enum UserRolesEnum
+enum UserRolesEnum: string
 {
-    //
+    case ADMIN = "admin";
+    case MEMBER = "member";
 }
