@@ -14,7 +14,7 @@ class AdminRolePolicy
     public function accessDomain(Admin $admin, Menu $menu)
     {
         return MenuVisibility::where('menu_id', $menu->id)
-            ->where('admin_role_id', $admin->admin_role_id)
+            ->where('job_title_id', $admin->job_title_id)
             ->exists();
     }
 }
