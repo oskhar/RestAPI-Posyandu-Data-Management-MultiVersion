@@ -3,14 +3,12 @@
 namespace Domain\Member\Actions;
 
 use App\Infrastructure\API\Data\APIResponseData;
-use App\Infrastructure\API\Enums\APIStatusEnum;
-use App\Infrastructure\Exceptions\APIResponseException;
 use App\Infrastructure\Services\APIResponseService;
 use Domain\Member\Data\MemberData;
 use Illuminate\Http\JsonResponse;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class MemberGetSelfAction
+class GetSelfMemberAction
 {
     use AsAction;
 
