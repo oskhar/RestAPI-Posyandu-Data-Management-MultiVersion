@@ -8,7 +8,7 @@ use Domain\Admin\Data\AdminData;
 use Illuminate\Http\JsonResponse;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class AdminGetSelfAction
+class GetSelfAdminAction
 {
     use AsAction;
 
