@@ -3,7 +3,6 @@
 use App\Infrastructure\API\Data\APIResponseData;
 use App\Infrastructure\API\Enums\APIStatusEnum;
 use App\Infrastructure\Exceptions\APIResponseException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use App\Infrastructure\Middleware\RequestTrackingMiddleware;
