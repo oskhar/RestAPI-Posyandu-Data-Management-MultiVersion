@@ -23,12 +23,12 @@ class PaginationData extends Data
             per_page: $paginator->perPage(),
             current_page: $paginator->currentPage(),
             total_pages: $paginator->lastPage(),
-            links: PaginationLinkData::from(
-                next: $paginator->nextPageUrl(),
-                prev: $paginator->previousPageUrl(),
-                first: $paginator->url(1),
-                last: $paginator->url($paginator->lastPage())
-            )->toArray()
+            links: PaginationLinkData::from([
+                "next" => $paginator->nextPageUrl(),
+                "prev" => $paginator->previousPageUrl(),
+                "first" => $paginator->url(1),
+                "last" => $paginator->url($paginator->lastPage())
+            ])->toArray()
         );
     }
 }
