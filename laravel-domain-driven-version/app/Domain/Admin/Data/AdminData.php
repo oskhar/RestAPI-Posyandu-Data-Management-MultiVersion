@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Domain\Shared\Casts\CaseCast;
 use Domain\Shared\Casts\DateResponseCast;
 use Domain\Shared\Casts\DateTimeResponseCast;
-use Domain\User\Models\Admin;
-use Domain\User\Models\JobTitle;
+use Domain\Admin\Models\Admin;
+use Domain\Admin\Models\JobTitle;
 use Illuminate\Support\Facades\Auth;
 use Spatie\LaravelData\Attributes\WithCastAndTransformer;
 use Spatie\LaravelData\Data;
@@ -25,10 +25,10 @@ class AdminData extends Data
         readonly ?string $profile_picture,
         readonly ?string $phone_number,
         readonly ?string $address,
-        #[WithCastAndTransformer(DateResponseCast::class)]
-        readonly ?Carbon $birth_date,
-        #[WithCastAndTransformer(DateTimeResponseCast::class)]
-        readonly ?Carbon $created_at,
+        // #[WithCastAndTransformer(DateResponseCast::class)]
+        readonly ?string $birth_date,
+        // #[WithCastAndTransformer(DateTimeResponseCast::class)]
+        readonly ?string $created_at,
     ) {
     }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Domain\User\Models;
+namespace Domain\Admin\Models;
 
 use Domain\Shared\Models\BaseModel;
 
-class Menu extends BaseModel
+class JobTitle extends BaseModel
 {
     /**
      * Atribut atau kolom yang boleh diubah.
@@ -12,9 +12,6 @@ class Menu extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
-        'text',
-        'route',
-        'icon',
-        'parent_id',
+        'name',
     ];
 }

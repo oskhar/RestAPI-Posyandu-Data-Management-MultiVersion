@@ -1,10 +1,10 @@
 <?php
 
-namespace Domain\User\Policies;
+namespace Domain\Admin\Policies;
 
-use Domain\User\Models\Admin;
-use Domain\User\Models\Menu;
-use Domain\User\Models\MenuVisibility;
+use Domain\Admin\Models\Admin;
+use Domain\Admin\Models\Menu;
+use Domain\Admin\Models\MenuVisibility;
 
 class AdminRolePolicy
 {

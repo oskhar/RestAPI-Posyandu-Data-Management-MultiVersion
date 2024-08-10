@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\User\Models;
+namespace Domain\Admin\Models;
 
 use Domain\Shared\Models\BaseModel;
 
