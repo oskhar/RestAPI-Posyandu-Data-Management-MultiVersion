@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\API\Data;
 
-use Domain\Shared\Casts\StringArrayCast;
+use Domain\Shared\Transformers\StringArrayCast;
 use Domain\Shared\Data\PaginationData;
 use Domain\Shared\Data\ResponseMetaData;
 use Domain\User\Data\AccessTokenData;
