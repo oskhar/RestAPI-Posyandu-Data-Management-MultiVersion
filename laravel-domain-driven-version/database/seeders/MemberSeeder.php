@@ -19,7 +19,7 @@ class MemberSeeder extends Seeder
             'email' => 'member@example.com',
             'password' => Hash::make('TesMember123'),
             'role' => 'member',
-            'gender' => 'l',
+            'gender' => 'male',
             'profile_picture' => null,
             'phone_number' => '1234567890',
             'birth_date' => '1990-01-01',

@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => Hash::make('TesPassword123'),
             'role' => 'admin',
-            'gender' => 'l',
+            'gender' => 'male',
             'profile_picture' => null,
             'phone_number' => '1234567890',
             'birth_date' => '1990-01-01',
@@ -41,18 +41,24 @@ class AdminSeeder extends Seeder
         ]);
 
         $faker = Faker::create();
-        for ($i = 0; $i < 25; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $this->costumeFactory($faker);
         }
     }
+
+    /**
+     * Factory on method
+     * @param mixed $faker
+     * @return void
+     */
     public function costumeFactory($faker): void
     {
         $userId = DB::table('users')->insertGetId([
             'full_name' => $faker->name,
             'email' => $faker->unique()->safeEmail,
-            'password' => Hash::make('TesPassword123'), // Static password for seeding
+            'password' => Hash::make('TesPassword123'),
             'role' => 'admin',
-            'gender' => $faker->randomElement(['l', 'p']),
+            'gender' => $faker->randomElement(['male', 'female']),
             'profile_picture' => null,
             'phone_number' => $faker->phoneNumber,
             'birth_date' => $faker->date('Y-m-d', '2000-01-01'),
@@ -63,10 +69,9 @@ class AdminSeeder extends Seeder
             'deleted_at' => null,
         ]);
 
-        // Insert Admin Data
         DB::table('admins')->insert([
             'user_id' => $userId,
-            'job_title_id' => $faker->numberBetween(1, 10), // Assuming job titles are between 1 and 10
+            'job_title_id' => $faker->numberBetween(3, 10),
             'address' => $faker->address,
             'created_at' => now(),
             'updated_at' => now(),
