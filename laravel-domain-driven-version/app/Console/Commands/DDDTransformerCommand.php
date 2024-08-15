@@ -5,19 +5,19 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
-class DDDCastTransformerCommand extends Command
+class DDDTransformerCommand extends Command
 {
     /**
      * How to use
      * @var string
      */
-    protected $signature = 'ddd:cast-transformer {name} {--domain=}';
+    protected $signature = 'ddd:transformer {name} {--domain=}';
 
     /**
      * Define your command description
      * @var string
      */
-    protected $description = 'Create a new cast transformer class';
+    protected $description = 'Create a new transformer transformer class';
 
     /**
      * Initialization atribute
@@ -41,7 +41,7 @@ class DDDCastTransformerCommand extends Command
     public function handle()
     {
         if (!$this->option('domain')) {
-            $this->error("The --domain= option is required.\n\nEx: php artisan ddd:cast-transformer {castName} --domain={domainName}");
+            $this->error("The --domain= option is required.\n\nEx: php artisan ddd:transformer {transformerName} --domain={domainName}");
             return 1;
         }
 
@@ -49,15 +49,15 @@ class DDDCastTransformerCommand extends Command
         $domain = $this->option('domain');
         $domain_namespace = config('ddd.domain_namespace');
 
-        $stub = $this->files->get(resource_path('stubs/ddd/cast-transformer.php.stub'));
+        $stub = $this->files->get(resource_path('stubs/ddd/transformer.php.stub'));
 
         $stub = str_replace(
             ['{{ namespace }}', '{{ class }}'],
-            ["{$domain_namespace}\\{$domain}\\Casts", $name],
+            ["{$domain_namespace}\\{$domain}\\Transformers", $name],
             $stub
         );
 
-        $directory = app_path("Domain/{$domain}/Casts");
+        $directory = app_path("Domain/{$domain}/Transformers");
 
         if (!$this->files->isDirectory($directory)) {
             $this->files->makeDirectory($directory, 0755, true);
@@ -72,7 +72,7 @@ class DDDCastTransformerCommand extends Command
 
         $this->files->put($file, $stub);
 
-        $this->info("Cast transformer created successfully at {$file}");
+        $this->info("Transformer created successfully at {$file}");
         return 0;
     }
 }
