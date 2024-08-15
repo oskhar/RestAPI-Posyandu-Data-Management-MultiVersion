@@ -13,7 +13,6 @@ class {{ class }}{{ extends }}
 {
     use AsAction;
 
-    protected $errors = [];
     protected APIResponseService $response;
 
     /**
