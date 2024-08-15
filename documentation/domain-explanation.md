@@ -6,7 +6,7 @@ User Management:
 Community Center:
 
 - Domain Event: Mengelola informasi dan operasi terkait pusat komunitas posyandu.
-- Entitas: Community Centers, Banner Sliders, Community Center Banner Sliders, Galleries, Events, Event Categories, Event Category Pivots.
+- Entitas: Community Centers, Banner Sliders, Community Center Banner Sliders, Galleries, Events, Event Categories.
 
 Education:
 
