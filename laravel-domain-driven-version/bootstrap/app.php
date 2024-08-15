@@ -3,6 +3,7 @@
 use App\Infrastructure\API\Data\APIResponseData;
 use App\Infrastructure\API\Enums\APIStatusEnum;
 use App\Infrastructure\Exceptions\APIResponseException;
+use App\Infrastructure\Middleware\RoleMiddleware;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use App\Infrastructure\Middleware\RequestTrackingMiddleware;
@@ -21,6 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(RequestTrackingMiddleware::class);
+        $middleware->alias([
+            "role" => RoleMiddleware::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $response = app(APIResponseService::class);

@@ -53,8 +53,8 @@ return [
     */
 
     'expiration' => null,
-    'ac_expiration' => 60,
-    'rm_expiration' => 7 * 24 * 60,
+    'short_lived_expiration' => 60,
+    'long_lived_expiration' => 7 * 24 * 60,
 
     /*
     |--------------------------------------------------------------------------
