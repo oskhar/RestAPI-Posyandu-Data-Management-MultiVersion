@@ -153,14 +153,16 @@ paths:
                 message: "Get self admin data successful."
                 data:
                   admin:
+                    id: "integer"
                     full_name: "string"
-                    email: "email"
+                    email: "string|email"
+                    gender: "enum:L,P"
                     job_title: "string"
-                    profile_picture: "link"
-                    gender: "L|P"
-                    address: "string"
+                    profile_picture: "string"
+                    phone_number: "string|numberformat"
+                    address: "text"
                     birth_date: "date"
-                    phone_number: "string"
+                    created_at: "datetime"
                 meta:
                   request_id: "string"
                   response_size: "integer|byte"
@@ -401,22 +403,33 @@ paths:
                   response_size: "integer|byte"
     post:
       tags:
-        - Data admin
-      summary: MENAMBAHKAN data admin
+        - Admin Data
+      summary: need ADMIN Spesific Job Title Authenticaiton
       requestBody:
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                id_jabatan:
-                  type: integer
-                email:
-                  type: string
-                nama_lengkap:
-                  type: string
-                password:
-                  type: string
+            example:
+              example:
+                full_name: "Budi Santoso"
+                email: "budi.santoso@example.com"
+                password: "123Tesdoang"
+                gender: "L"
+                job_title: "BENDAHARA"
+                language: "id"
+                profile_picture: "null"
+                phone_number: "082345678901"
+                address: "Jl. Sudirman No.45, Surabaya, Jawa Timur, 60271"
+                birth_date: "1992-06-21"
+              rule:
+                full_name: "required|string"
+                email: "required|string|email"
+                password: "required|string|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/"
+                gender: "required|enum:L,P"
+                job_title: "required|string"
+                language: "enum:id,en"
+                phone_number: "string|numberformat"
+                address: "text"
+                birth_date: "date"
       responses:
         201:
           description: CREATED
@@ -442,41 +455,39 @@ paths:
                   message: "Data ... tidak valid"
     put:
       tags:
-        - Data admin
-      summary: MENGUBAH data admin
+        - Admin Data
+      summary: need ADMIN Authentication
       requestBody:
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                id_admin:
-                  type: integer
-                id_jabatan:
-                  type: integer
-                email:
-                  type: string
-                password:
-                  type: object
-                  properties:
-                    lama:
-                      type: string
-                    baru_a:
-                      type: string
-                    baru_b:
-                      type: string
-                nama_lengkap:
-                  type: string
-                foto_profile:
-                  type: string
-                jenis_kelamin:
-                  type: boolean
-                alamat:
-                  type: string
-                tanggal_lahir:
-                  type: string
-                no_telp:
-                  type: string
+            example:
+              example:
+                full_name: "John Doe"
+                gender: "P"
+                job_title: "SEKRETARIS"
+                language: "en"
+                profile_picture: null
+                phone_number: "9876543210"
+                address: "456 Example Ave, Example City, Example State, 67890"
+                birth_date: "1985-05-15"
+              example_backup:
+                full_name: "Admin User"
+                gender: "L"
+                job_title: "KETUA"
+                language: "id"
+                profile_picture: null
+                phone_number: "1234567890"
+                address: "123 Admin St, Admin City, Admin State, 12345"
+                birth_date: "1990-01-01"
+              rule:
+                full_name: "required|string"
+                email: "required|string|email"
+                gender: "required|enum:L,P"
+                job_title: "required|string"
+                profile_picture: "string|Base64"
+                phone_number: "string|numberformat"
+                address: "text"
+                birth_date: "date"
       responses:
         200:
           description: OK
