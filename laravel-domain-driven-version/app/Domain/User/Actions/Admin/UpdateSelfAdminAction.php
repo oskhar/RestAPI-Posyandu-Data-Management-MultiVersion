@@ -54,11 +54,13 @@ class UpdateSelfAdminAction
      */
     public function execute(AdminData $data): void
     {
+        $data = $data->toArrayUpdate();
+
         $user = User::findOrFail(Auth::user()->id);
 
-        if (!empty($data->profile_picture) && $data->profile_picture != $user->profile_picture)
-            $data->profile_picture = ($this->saveImage)(
-                $data->profile_picture
+        if (!empty($data['profile_picture']) && $data['profile_picture'] != $user['profile_picture'])
+            $data['profile_picture'] = ($this->saveImage)(
+                $data['profile_picture']
             );
 
         $user->update(
@@ -67,8 +69,8 @@ class UpdateSelfAdminAction
 
         Admin::where("user_id", $user->id)
             ->update([
-                "job_title_id" => JobTitle::where("name", $data->job_title)->pluck("id")->firstOrFail(),
-                "address" => $data->address
+                "job_title_id" => $data['job_title_id'],
+                "address" => $data['address']
             ]);
     }
 }
