@@ -1,7 +1,11 @@
 <?php
 
+use Domain\User\Actions\Admin\CreateAdminAction;
 use Domain\User\Actions\Admin\DeleteAdminAction;
+use Domain\User\Actions\Admin\DestroyAdminAction;
 use Domain\User\Actions\Admin\GetSelfAdminAction;
+use Domain\User\Actions\Admin\GetWithTrashAdminAction;
+use Domain\User\Actions\Admin\RecoverAdminAction;
 use Domain\User\Actions\Admin\UpdateSelfAdminAction;
 use Domain\User\Actions\Member\GetSelfMemberAction;
 use Domain\User\Actions\Authentication\LogoutAction;
@@ -15,14 +19,17 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/admin')
     ->middleware('role:admin')
     ->group(function () {
-        Route::post('/', RefreshAction::class);
+        Route::post('/', CreateAdminAction::class);
         Route::put('/', UpdateSelfAdminAction::class);
         Route::post('/me', GetSelfAdminAction::class);
         Route::post('/refresh', RefreshAction::class);
+        Route::get('/with-trashed', GetWithTrashAdminAction::class);
         Route::post('/reset-password', ResetPasswordAction::class);
         Route::post('/logout', LogoutAction::class);
         Route::put('/{id}', ResetPasswordAction::class);
         Route::delete('/{id}', DeleteAdminAction::class);
+        Route::post('/{id}/recover', RecoverAdminAction::class);
+        Route::delete('/{id}/destroy', DestroyAdminAction::class);
     });
 
 /**
