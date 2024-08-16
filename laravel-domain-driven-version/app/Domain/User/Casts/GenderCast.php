@@ -2,6 +2,7 @@
 
 namespace Domain\User\Casts;
 
+use App\Infrastructure\Exceptions\APIResponseException;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ class GenderCast implements CastsAttributes
             "id" => match ($value) {
                     "male" => "L",
                     "female" => "P",
+                    default => throw new APIResponseException(['Invalid gender value: ' . $value]),
                 },
             "en" => $value,
         };
@@ -36,6 +38,7 @@ class GenderCast implements CastsAttributes
             "P" => "female",
             "male" => "male",
             "female" => "female",
+            default => throw new APIResponseException(['Invalid gender value: ' . $value]),
         };
     }
 }
