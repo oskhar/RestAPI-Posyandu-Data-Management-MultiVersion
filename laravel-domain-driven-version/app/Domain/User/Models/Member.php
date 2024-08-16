@@ -3,9 +3,12 @@
 namespace Domain\User\Models;
 
 use Domain\Shared\Models\BaseModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Member extends BaseModel
 {
+    use SoftDeletes;
+
     /**
      * Atribut atau kolom yang boleh diubah.
      *

@@ -34,12 +34,14 @@ class Admin extends BaseModel
             'users.birth_date',
             'users.created_at',
             \DB::raw('COALESCE((
-                SELECT last_used_at
-                FROM personal_access_tokens
-                WHERE personal_access_tokens.tokenable_id = users.id
-                ORDER BY last_used_at DESC
-                LIMIT 1
-            ), "Never logged in") as last_active_at')
+                    SELECT last_used_at
+                    FROM personal_access_tokens
+                    WHERE personal_access_tokens.tokenable_id = users.id
+                    ORDER BY last_used_at DESC
+                    LIMIT 1
+                ),
+                "Never logged in"
+            ) as last_active_at')
         )
             ->join('users', 'users.id', '=', 'admins.user_id')
             ->join('job_titles', 'job_titles.id', '=', 'admins.job_title_id');
