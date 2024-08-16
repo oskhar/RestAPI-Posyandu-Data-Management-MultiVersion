@@ -6,14 +6,14 @@ use App\Infrastructure\API\Data\APIResponseData;
 use App\Infrastructure\API\Enums\APIStatusEnum;
 use App\Infrastructure\Exceptions\APIResponseException;
 use App\Infrastructure\Services\APIResponseService;
-use Domain\User\Data\AdminData;
-use Domain\User\Models\Admin;
 use Domain\Shared\Data\FilterData;
 use Domain\Shared\Data\PaginationData;
+use Domain\User\Data\AdminData;
+use Domain\User\Models\Admin;
 use Illuminate\Http\JsonResponse;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class GetAllAdminAction
+class GetWithTrashedAdminAction
 {
     use AsAction;
 
@@ -50,7 +50,8 @@ class GetAllAdminAction
      */
     public function execute(FilterData $filter): array
     {
-        $admin = Admin::getDetailedData();
+        $admin = Admin::getDetailedData()->withTrashed();
+
         if ($filter->search)
             $admin->where("users.full_name", "LIKE", "%" . $filter->search . "%");
 
