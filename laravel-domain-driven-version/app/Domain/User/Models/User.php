@@ -20,7 +20,6 @@ class User extends BaseModel
      */
     protected $casts = [
         'gender' => GenderCast::class,
-        'birth_date' => DateCast::class,
     ];
 
     /**
@@ -38,6 +37,7 @@ class User extends BaseModel
      */
     protected $fillable = [
         'full_name',
+        'email',
         'password',
         'role',
         'gender',
