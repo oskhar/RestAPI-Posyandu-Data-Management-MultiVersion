@@ -21,28 +21,6 @@ tags:
     description: For Member authentication
   - name: Member Data
     description: For managing member data
-  - name: Educational Data
-    description: For managing educational data
-  - name: Event Report Data
-    description: For managing event report data
-  - name: Image Data
-    description: For managing image data
-  - name: Posyandu Data
-    description: For managing posyandu data
-  - name: Format 1 Data
-    description: For managing Format 1 data
-  - name: Format 2 A Data
-    description: For managing Format 2 A data
-  - name: Statistics Data
-    description: For monitoring posyandu statistics
-  - name: Kader Gendong Service
-    description: Service for managing task assignments between kader
-  - name: Resleting Service
-    description: Service for youth care for stunting
-  - name: Sales Service
-    description: Special sales service for posyandu
-  - name: Excel Import
-    description: Feature for importing Excel data into the database
 paths:
   /admin/login:
     post:
@@ -71,14 +49,18 @@ paths:
                 message: "Login successful."
                 data:
                   admin:
+                    id: "integer"
                     full_name: "string"
-                    email: "email"
+                    email: "string|email"
+                    gender: "enum:male,female,L,P"
+                    language: "enum:en,id"
                     job_title: "string"
-                    profile_picture: "link"
-                    gender: "L|P"
-                    address: "string"
+                    profile_picture: "string"
+                    phone_number: "string|numberformat"
+                    address: "text"
                     birth_date: "date"
-                    phone_number: "string"
+                    created_at: "datetime"
+                    last_active_at: "datetime"
                   token:
                     access_token: "string"
                     expires_at: "date"
@@ -133,7 +115,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -156,7 +138,8 @@ paths:
                     id: "integer"
                     full_name: "string"
                     email: "string|email"
-                    gender: "enum:L,P"
+                    gender: "enum:male,female,L,P"
+                    language: "enum:en,id"
                     job_title: "string"
                     profile_picture: "string"
                     phone_number: "string|numberformat"
@@ -183,7 +166,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -221,7 +204,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -286,13 +269,13 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
                   response_size: "integer|byte"
 
-  # ==================================================================
+  # ===============================================
 
   /admin:
     get:
@@ -339,11 +322,18 @@ paths:
                 data:
                   admin:
                     <array>:
+                      id: "integer"
                       full_name: "string"
-                      profile_picture: "link"
-                      gender: "L|P"
+                      email: "string|email"
+                      gender: "enum:male,female,L,P"
+                      language: "enum:en,id"
+                      job_title: "string"
+                      profile_picture: "string"
+                      phone_number: "string|numberformat"
+                      address: "text"
                       birth_date: "date"
-                      phone_number: "string"
+                      created_at: "datetime"
+                      last_active_at: "datetime"
                   pagination:
                     total: "integer"
                     per_page: "integer"
@@ -385,7 +375,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -435,24 +425,56 @@ paths:
           description: CREATED
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
               example:
-                success:
-                  message: "Data ... berhasil ditambahkan"
+                status: true
+                message: "New entity launched into the cosmos."
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
             application/json:
               example:
-                errors:
-                  message: "Data ... tidak valid"
+                status: false
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
+        409:
+          description: CONFLICT
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Collision in the cosmic pathways! Your request encountered a space-time conflict."
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
     put:
       tags:
         - Admin Data
@@ -493,31 +515,45 @@ paths:
           description: OK
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
               example:
-                success:
-                  message: "Data ... berhasil diubah"
+                status: true
+                message: "Success! Your request has safely landed back to Earth."
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
             application/json:
               example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
+                status: false
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
+        401:
+          description: UNAUTHORIZED
           content:
             application/json:
               example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
   /admin/with-trashed:
     get:
       tags:
@@ -565,7 +601,7 @@ paths:
                     <array>:
                       full_name: "string"
                       profile_picture: "link"
-                      gender: "L|P"
+                      gender: "enum:male,female,L,P"
                       birth_date: "date"
                       phone_number: "string"
                   pagination:
@@ -609,7 +645,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -664,7 +700,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -696,24 +732,56 @@ paths:
           description: CREATED
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
               example:
-                success:
-                  message: "Data ... berhasil ditambahkan"
+                status: true
+                message: "New entity launched into the cosmos."
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
         400:
           description: BAD REQUEST
           content:
             application/json:
               example:
-                errors:
-                  message: "Data ... tidak valid"
+                status: false
+                message: "Your request veered off course and couldn't escape Earth's gravity!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your credentials don't pass the cosmic gatekeeper!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              example:
+                status: false
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                status: false
+                message: "The data you're seeking is beyond the bounds of space!"
+                errors: "array<string>"
+                meta:
+                  request_id: "string"
+                  response_size: "integer|byte"
   /admin/{id}/destroy:
     delete:
       tags:
@@ -753,7 +821,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -770,7 +838,7 @@ paths:
                   request_id: "string"
                   response_size: "integer|byte"
 
-  # ==================================================================
+  # ===============================================
 
   /member/register:
     post:
@@ -781,10 +849,22 @@ paths:
         content:
           application/json:
             example:
-              full_name: "string|required"
-              email: "email|required|unique"
-              birth_date: "date|required"
-              phone_number: "string|required"
+              example:
+                full_name: "Siti Nurhaliza"
+                email: "siti.nurhaliza@example.com"
+                password: "Siti1234"
+                gender: "P"
+                language: "id"
+                phone_number: "081234567890"
+                birth_date: "1990-05-21"
+              rule:
+                full_name: "required|string"
+                email: "required|string|email"
+                password: "required|string|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/"
+                gender: "required|enum:L,P"
+                language: "enum:id,en"
+                phone_number: "string|numberformat"
+                birth_date: "date"
       responses:
         201:
           description: CREATED
@@ -834,13 +914,17 @@ paths:
                 message: "Login successful."
                 data:
                   member:
+                    id: "integer"
                     full_name: "string"
-                    email: "email"
-                    profile_picture: "link"
-                    gender: "L|P"
+                    email: "string|email"
+                    gender: "enum:male,female,L,P"
+                    language: "enum:en,id"
+                    profile_picture: "string"
+                    phone_number: "string|numberformat"
                     birth_date: "date"
-                    phone_number: "string"
                     poin: "integer"
+                    created_at: "datetime"
+                    last_active_at: "datetime"
                   token:
                     access_token: "string"
                     expires_at: "date"
@@ -895,7 +979,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -915,13 +999,16 @@ paths:
                 message: "Get self MEMBER data successful."
                 data:
                   member:
+                    id: "integer"
                     full_name: "string"
-                    email: "email"
-                    profile_picture: "link"
-                    gender: "L|P"
+                    email: "string|email"
+                    gender: "enum:male,female,L,P"
+                    language: "enum:en,id"
+                    profile_picture: "string"
+                    phone_number: "string|numberformat"
                     birth_date: "date"
-                    phone_number: "string"
                     poin: "integer"
+                    created_at: "datetime"
                 meta:
                   request_id: "string"
                   response_size: "integer|byte"
@@ -942,7 +1029,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -980,7 +1067,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -1045,11 +1132,14 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
                   response_size: "integer|byte"
+
+  # ===============================================
+
   /member:
     get:
       tags:
@@ -1093,11 +1183,17 @@ paths:
                 data:
                   member:
                     <array>:
+                      id: "integer"
                       full_name: "string"
-                      profile_picture: "link"
-                      gender: "L|P"
+                      email: "string|email"
+                      gender: "enum:male,female,L,P"
+                      language: "enum:en,id"
+                      profile_picture: "string"
+                      phone_number: "string|numberformat"
                       birth_date: "date"
-                      phone_number: "string"
+                      poin: "integer"
+                      created_at: "datetime"
+                      last_active_at: "datetime"
                   pagination:
                     total: "integer"
                     per_page: "integer"
@@ -1139,7 +1235,7 @@ paths:
             application/json:
               example:
                 status: false
-                message: "Your request can't travel beyond the space-time boundary!"
+                message: "Your request violates the Sacred Timeline and cannot be fulfilled!"
                 errors: "array<string>"
                 meta:
                   request_id: "string"
@@ -1155,2344 +1251,3 @@ paths:
                 meta:
                   request_id: "string"
                   response_size: "integer|byte"
-    put:
-      tags:
-        - Member Data
-      summary: need MEMBER Authentication
-      requestBody:
-        content:
-          application/json:
-            example:
-              full_name: "string|required"
-              email: "email|unique|required"
-              gender: "L|P|required"
-              birth_date: "date|required"
-              profile_picture: "Base64"
-              phone_number: "string"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                status: true
-                message: "Success! Your request has safely landed back to Earth."
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                status: false
-                message: "Your request veered off course and couldn't escape Earth's gravity!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        401:
-          description: UNAUTHORIZED
-          content:
-            application/json:
-              example:
-                status: false
-                message: "Your credentials don't pass the cosmic gatekeeper!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        403:
-          description: FORBIDDEN
-          content:
-            application/json:
-              example:
-                status: false
-                message: "Your request can't travel beyond the space-time boundary!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-  /member/{id}:
-    put:
-      tags:
-        - Member Data
-      summary: need ADMIN Authentication
-      requestBody:
-        content:
-          application/json:
-            example:
-              full_name: "string|required"
-              email: "email|unique|required"
-              gender: "L|P|required"
-              birth_date: "date|required"
-              profile_picture: "link"
-              phone_number: "string"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                status: true
-                message: "Success! Your request has safely landed back to Earth."
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                status: false
-                message: "Your request veered off course and couldn't escape Earth's gravity!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        401:
-          description: UNAUTHORIZED
-          content:
-            application/json:
-              example:
-                status: false
-                message: "Your credentials don't pass the cosmic gatekeeper!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        403:
-          description: FORBIDDEN
-          content:
-            application/json:
-              example:
-                status: false
-                message: "Your request can't travel beyond the space-time boundary!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                status: false
-                message: "The data you're seeking is beyond the bounds of space!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-    delete:
-      tags:
-        - Member Data
-      summary: need ADMIN Authentication
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                status: true
-                message: "Success! Your request has safely landed back to Earth."
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                status: false
-                message: "Your request veered off course and couldn't escape Earth's gravity!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        401:
-          description: UNAUTHORIZED
-          content:
-            application/json:
-              example:
-                status: false
-                message: "Your credentials don't pass the cosmic gatekeeper!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                status: false
-                message: "The data you're seeking is beyond the bounds of space!"
-                errors: "array<string>"
-                meta:
-                  request_id: "string"
-                  response_size: "integer|byte"
-  /edukasi:
-    get:
-      tags:
-        - Data edukasi
-      summary: MENDAPATKAN data edukasi
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_edukasi:
-                  type: integer
-                search:
-                  type: string
-                start:
-                  type: integer
-                length:
-                  type: integer
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  jumlah_data:
-                    type: integer
-                  edukasi:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id_edukasi:
-                          type: string
-                        email:
-                          type: string
-                        nama_lengkap:
-                          type: string
-                        judul:
-                          type: string
-                        materi:
-                          type: string
-                        overview:
-                          type: string
-                        gambar:
-                          type: string
-                        tanggal:
-                          type: string
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Data edukasi
-      summary: MENAMBAHKAN data edukasi
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_admin:
-                  type: integer
-                judul:
-                  type: string
-                materi:
-                  type: string
-                gambar:
-                  type: string
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil ditambahkan"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-    put:
-      tags:
-        - Data edukasi
-      summary: MENGUBAH data edukasi
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_edukasi:
-                  type: integer
-                judul:
-                  type: string
-                materi:
-                  type: string
-                gambar:
-                  type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil diubah"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    delete:
-      tags:
-        - Data edukasi
-      summary: MENGHAPUS data edukasi
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_edukasi:
-                  type: integer
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil dihapus"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-
-  # ==================================================================
-
-  /berita:
-    get:
-      tags:
-        - Data berita acara
-      summary: MENDAPATKAN data berita
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_berita:
-                  type: integer
-                search:
-                  type: string
-                start:
-                  type: integer
-                length:
-                  type: integer
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  jumlah_data:
-                    type: integer
-                  berita:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id_berita:
-                          type: integer
-                        email:
-                          type: string
-                        nama_lengkap:
-                          type: string
-                        judul:
-                          type: string
-                        deskripsi:
-                          type: string
-                        overview:
-                          type: string
-                        gambar:
-                          type: string
-                        tanggal_pelaksanaan:
-                          type: string
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Data berita acara
-      summary: MENAMBAHKAN data berita
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_admin:
-                  type: integer
-                judul:
-                  type: string
-                deskripsi:
-                  type: string
-                gambar:
-                  type: string
-                tanggal_pelaksanaan:
-                  type: string
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil ditambahkan"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-    put:
-      tags:
-        - Data berita acara
-      summary: MENGUBAH data berita
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_berita:
-                  type: integer
-                judul:
-                  type: string
-                deskripsi:
-                  type: string
-                gambar:
-                  type: string
-                tanggal_pelaksanaan:
-                  type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil diubah"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    delete:
-      tags:
-        - Data berita acara
-      summary: MENGHAPUS data berita
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_berita:
-                  type: integer
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil dihapus"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-
-  # ==================================================================
-
-  /gambar:
-    get:
-      tags:
-        - Data gambar
-      summary: MENDAPATKAN data gambar
-
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_gambar:
-                  type: integer
-                start:
-                  type: integer
-                length:
-                  type: integer
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  jumlah_data:
-                    type: integer
-                  gambar:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        email:
-                          type: string
-                        nama_lengkap:
-                          type: string
-                        gambar:
-                          type: string
-                        tanggal:
-                          type: string
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Data gambar
-      summary: MENAMBAHKAN data gambar
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_admin:
-                  type: integer
-                gambar:
-                  type: string
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil ditambahkan"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-    delete:
-      tags:
-        - Data gambar
-      summary: MENGHAPUS data gambar
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_gambar:
-                  type: integer
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil dihapus"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-
-  # ==================================================================
-
-  /posyandu:
-    get:
-      tags:
-        - Data posyandu
-      summary: MENDAPATKAN data posyandu
-
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  nama_posyandu:
-                    type: string
-                  kota:
-                    type: string
-                  kecamatan:
-                    type: string
-                  kelurahan:
-                    type: string
-                  rt_rw:
-                    type: string
-                  penyampaian_ketua:
-                    type: string
-                  gambar_gedung:
-                    type: string
-                  visi:
-                    type: string
-                  misi:
-                    type: string
-                  foto_profile_ketua:
-                    type: string
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    put:
-      tags:
-        - Data posyandu
-      summary: MENGUBAH data posyandu
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                nama_posyandu:
-                  type: string
-                kota:
-                  type: string
-                kecamatan:
-                  type: string
-                kelurahan:
-                  type: string
-                rt_rw:
-                  type: string
-                penyampaian_ketua:
-                  type: string
-                gambar_gedung:
-                  type: string
-                visi:
-                  type: string
-                misi:
-                  type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil diubah"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-  /format-a:
-    get:
-      tags:
-        - Data Format 1
-      summary: MENDAPATKAN data format-a
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_format_a:
-                  type: integer
-                search:
-                  type: string
-                start:
-                  type: integer
-                length:
-                  type: integer
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  nama_posyandu:
-                    type: string
-                  kota:
-                    type: string
-                  judul_format:
-                    type: string
-                  jumlah_lahir:
-                    type: integer
-                  jumlah_meninggal:
-                    type: integer
-                  jumlah_bayi_meninggal:
-                    type: integer
-                  jumlah_ibu_meninggal:
-                    type: integer
-                  jumlah_data:
-                    type: integer
-                  format_a:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id_format_a:
-                          type: integer
-                        nama_ayah:
-                          type: string
-                        nama_ibu:
-                          type: string
-                        nama_bayi:
-                          type: string
-                        jenis_kelamin:
-                          type: string
-                        tanggal_lahir:
-                          type: string
-                        tanggal_meninggal_bayi:
-                          type: string
-                        tanggal_meninggal_ibu:
-                          type: string
-                        keterangan:
-                          type: string
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Data Format 1
-      summary: MENAMBAHKAN data format-a
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                nama_ayah:
-                  type: string
-                nama_ibu:
-                  type: string
-                nama_bayi:
-                  type: string
-                jenis_kelamin:
-                  type: string
-                tanggal_lahir:
-                  type: string
-                tanggal_meninggal_bayi:
-                  type: string
-                tanggal_meninggal_ibu:
-                  type: string
-                keterangan:
-                  type: string
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil ditambahkan"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-    put:
-      tags:
-        - Data Format 1
-      summary: MENGUBAH data format-a
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_format_a:
-                  type: integer
-                nama_ayah:
-                  type: string
-                nama_ibu:
-                  type: string
-                nama_bayi:
-                  type: string
-                jenis_kelamin:
-                  type: string
-                tanggal_lahir:
-                  type: string
-                tanggal_meninggal_bayi:
-                  type: string
-                tanggal_meninggal_ibu:
-                  type: string
-                keterangan:
-                  type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil diubah"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    delete:
-      tags:
-        - Data Format 1
-      summary: MENGHAPUS data format-a
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_format_a:
-                  type: integer
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil dihapus"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-
-  # ==================================================================
-
-  /format-ba:
-    get:
-      tags:
-        - Data Format 2 A
-      summary: MENDAPATKAN data format-ba
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_format_a:
-                  type: integer
-                search:
-                  type: string
-                start:
-                  type: integer
-                length:
-                  type: integer
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  jumlah_data:
-                    type: integer
-                  format_ba:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id_bayi:
-                          type: integer
-                        nama_bayi:
-                          type: string
-                        jenis_kelamin:
-                          type: string
-                        berat_badan:
-                          type: number
-                        ntob:
-                          type: string
-                        asi_ekslusif:
-                          type: string
-                        tanggal_lahir:
-                          type: string
-                          format: date
-                        umur:
-                          type: integer
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Data Format 2 A
-      summary: MENAMBAHKAN data format-ba
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id_bayi:
-                  type: integer
-                judul:
-                  type: string
-                berat_badan:
-                  type: integer
-                ntob:
-                  type: string
-                asi_ekslusif:
-                  type: string
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil ditambahkan"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /format-b/unique:
-    get:
-      tags:
-        - Data Format 2 A
-      summary: MENDAPATKAN data format-b
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                search:
-                  type: string
-                start:
-                  type: integer
-                length:
-                  type: integer
-                tahun:
-                  type: integer
-                tab:
-                  type: integer
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  jumlah_data:
-                    type: integer
-                  format_ba:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id_bayi:
-                          type: integer
-                        nama_bayi:
-                          type: string
-                        jenis_kelamin:
-                          type: string
-                        berat_badan:
-                          type: number
-                        ntob:
-                          type: string
-                        asi_ekslusif:
-                          type: string
-                        tanggal_lahir:
-                          type: string
-                          format: date
-                        umur:
-                          type: integer
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-  # ==================================================================
-
-  /statistik/dashboard:
-    get:
-      tags:
-        - Data statistik
-      summary: MENDAPATKAN data statistik
-
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  nama_statistik:
-                    type: string
-                  kota:
-                    type: string
-                  kecamatan:
-                    type: string
-                  kelurahan:
-                    type: string
-                  rt_rw:
-                    type: string
-                  penyampaian_ketua:
-                    type: string
-                  gambar_gedung:
-                    type: string
-                  visi:
-                    type: string
-                  misi:
-                    type: string
-                  foto_profile_ketua:
-                    type: string
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-
-  # ==================================================================
-
-  /kader-gendong:
-    get:
-      tags:
-        - Layanan Kader Gendong
-      summary: MELIHAT riwayat pencetakan surat
-      requestBody:
-        content:
-          application/json:
-            example:
-              search: "string"
-              length: "integer|required"
-              page: "integer"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                current_page: 2
-                data:
-                  array:
-                    penanda_tangan: "string"
-                    pembuat_surat: "string"
-                    isi_surat: "text"
-                    tanggal_surat: "date"
-                    created_at: "datetime"
-                    file: "Blob base64"
-                first_page_url: "http://localhost:8000/api/kader-gendong?page=1"
-                from: 2
-                last_page: 8
-                last_page_url: "http://localhost:8000/api/kader-gendong?page=8"
-                links: Array(10) [ {…}, {…}, {…}, … ]
-                next_page_url: "http://localhost:8000/api/kader-gendong?page=3"
-                path: "http://localhost:8000/api/kader-gendong"
-                per_page: 1
-                prev_page_url: "http://localhost:8000/api/kader-gendong?page=1"
-                to: 2
-                total: 8
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Layanan Kader Gendong
-      summary: MENAMBAHKAN data surat kader
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                penanda_tangan: "string"
-                jabatan_penanda_tangan: "string"
-                tanggal_surat: "date"
-                nomor: "string"
-                kalimat_pembuka: "text"
-                ditugaskan:
-                  nama: "string"
-                  jabatan: "string"
-                  alamat: "text"
-                isi_surat: "text"
-                kalimat_penutup: "text"
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil ditambahkan"
-                  file: "Blob base64"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-
-  # ==================================================================
-
-  /kader-gendong/preview:
-    post:
-      tags:
-        - Layanan Kader Gendong
-      summary: MENAMBAHKAN data surat kader
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                penanda_tangan: "string"
-                jabatan_penanda_tangan: "string"
-                tanggal_surat: "date"
-                nomor: "string"
-                kalimat_pembuka: "text"
-                ditugaskan:
-                  nama: "string"
-                  jabatan: "string"
-                  alamat: "text"
-                isi_surat: "text"
-                kalimat_penutup: "text"
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Data ... berhasil ditambahkan"
-                  file: "Blob base64"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-
-  # ==================================================================
-
-  /kader-gendong/draf:
-    get:
-      tags:
-        - Layanan Kader Gendong
-      summary: MELIHAT list draf surat
-      requestBody:
-        content:
-          application/json:
-            example:
-              search: "string"
-              length: "integer|required"
-              page: "integer"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                current_page: 2
-                data:
-                  array:
-                    penanda_tangan: "string"
-                    jabatan_penanda_tangan: "string"
-                    tanggal_surat: "date"
-                    nomor: "string"
-                    kalimat_pembuka: "text"
-                    ditugaskan:
-                      nama: "string"
-                      jabatan: "string"
-                      alamat: "text"
-                    isi_surat: "text"
-                    kalimat_penutup: "text"
-                    created_at: "datetime"
-                    file: "Blob base64"
-                first_page_url: "http://localhost:8000/api/kader-gendong?page=1"
-                from: 2
-                last_page: 8
-                last_page_url: "http://localhost:8000/api/kader-gendong?page=8"
-                links: Array(10) [ {…}, {…}, {…}, … ]
-                next_page_url: "http://localhost:8000/api/kader-gendong?page=3"
-                path: "http://localhost:8000/api/kader-gendong"
-                per_page: 1
-                prev_page_url: "http://localhost:8000/api/kader-gendong?page=1"
-                to: 2
-                total: 8
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Layanan Kader Gendong
-      summary: MENAMBAHKAN data draf surat
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                penanda_tangan: "string"
-                jabatan_penanda_tangan: "string"
-                tanggal_surat: "date"
-                nomor: "string"
-                kalimat_pembuka: "text"
-                ditugaskan:
-                  nama: "string"
-                  jabatan: "string"
-                  alamat: "text"
-                isi_surat: "text"
-                kalimat_penutup: "text"
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Berhasil dimasukan dalam draf"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /kader-gendong/draf/{id}:
-    put:
-      tags:
-        - Layanan Kader Gendong
-      summary: MENGUBAH data draf surat
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                penanda_tangan: "string"
-                jabatan_penanda_tangan: "string"
-                tanggal_surat: "date"
-                nomor: "string"
-                kalimat_pembuka: "text"
-                ditugaskan:
-                  nama: "string"
-                  jabatan: "string"
-                  alamat: "text"
-                isi_surat: "text"
-                kalimat_penutup: "text"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Draf berhasil diperbarui"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-    delete:
-      tags:
-        - Layanan Kader Gendong
-      summary: MENGHAPUS data dari draf surat
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Draf surat dan penugasan terkait berhasil dihapus"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /kader-gendong/draf/cetak/{id}:
-    post:
-      tags:
-        - Layanan Kader Gendong
-      summary: MEMINDAHKAN draf surat ke surat
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Draf berhasil dicetak sebagai surat"
-                  file: "Blob base64"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /resleting/tantangan:
-    get:
-      tags:
-        - Layanan Resleting
-      summary: MELIHAT seluruh tantangan resleting
-      requestBody:
-        content:
-          application/json:
-            example:
-              search: "string"
-              length: "integer|required"
-              page: "integer"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                current_page: 2
-                data:
-                  array:
-                    id: "integer"
-                    judul: "string"
-                    gambar: "link"
-                    deskripsi: "text"
-                    overview: "string"
-                    tanggal_mulai: "date"
-                    tanggal_selesai: "date"
-                first_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
-                from: 2
-                last_page: 8
-                last_page_url: "http://localhost:8000/api/resleting/tantangan?page=8"
-                links: Array(10) [ {…}, {…}, {…}, … ]
-                next_page_url: "http://localhost:8000/api/resleting/tantangan?page=3"
-                path: "http://localhost:8000/api/resleting/tantangan"
-                per_page: 1
-                prev_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
-                to: 2
-                total: 8
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Layanan Resleting
-      summary: MENAMBAHKAN tantangan resleting
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                judul: "string"
-                gambar: "link|nullable"
-                deskripsi: "text"
-                overview: "string"
-                tanggal_mulai: "date"
-                tanggal_selesai: "date"
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Tantangan berhasil ditambahkan"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /resleting/tantangan/{id}:
-    get:
-      tags:
-        - Layanan Resleting
-      summary: MELIHAT seluruh tantangan resleting
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                judul: "string"
-                gambar: "link"
-                deskripsi: "text"
-                overview: "string"
-                tanggal_mulai: "date"
-                tanggal_selesai: "date"
-                member_submitted: "boolean|optional"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    put:
-      tags:
-        - Layanan Resleting
-      summary: MENGUBAH data tantangan
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                judul: "string"
-                gambar: "link|nullable"
-                deskripsi: "text"
-                overview: "string"
-                tanggal_mulai: "date"
-                tanggal_selesai: "date"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Tantangan berhasil diperbarui"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-    delete:
-      tags:
-        - Layanan Resleting
-      summary: MENGHAPUS tantangan resleting
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Tantangan telah dihapus!"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /resleting/submission:
-    get:
-      tags:
-        - Layanan Resleting
-      summary: MELIHAT semua submission
-      requestBody:
-        content:
-          application/json:
-            example:
-              search: "string"
-              length: "integer|required"
-              page: "integer"
-              tantangan_id: "integer"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                current_page: 2
-                data:
-                  array:
-                    id: "integer"
-                    tantangan_id: "integer"
-                    file: "Blob base64"
-                    link: "string"
-                    feedback: "text|nullable"
-                    peringkat: "integer"
-                    status: "string"
-                first_page_url: "http://localhost:8000/api/resleting/submission?page=1"
-                from: 2
-                last_page: 8
-                last_page_url: "http://localhost:8000/api/resleting/submission?page=8"
-                links: Array(10) [ {…}, {…}, {…}, … ]
-                next_page_url: "http://localhost:8000/api/resleting/submission?page=3"
-                path: "http://localhost:8000/api/resleting/submission"
-                per_page: 1
-                prev_page_url: "http://localhost:8000/api/resleting/submission?page=1"
-                to: 2
-                total: 8
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Layanan Resleting
-      summary: MENAMBAHKAN submission hasil
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                tantangan_id: "integer"
-                file: "Blob base64|nullable"
-                link: "string|nullable"
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Sumbission berhasil dikirim!"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /resleting/submission/{id}:
-    put:
-      tags:
-        - Layanan Resleting
-      summary: MENGUBAH data submission
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                feedback: "text|nullable"
-                peringkat: "integer"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Submission berhasil dinilai!"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-    delete:
-      tags:
-        - Layanan Resleting
-      summary: MENGHAPUS data submission
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Submission berhasil ditarik kembali!"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /member/tantangan:
-    get:
-      tags:
-        - Layanan Resleting
-      summary: MELIHAT seluruh tantangan resleting
-      requestBody:
-        content:
-          application/json:
-            example:
-              search: "string"
-              length: "integer|required"
-              page: "integer"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                current_page: 2
-                data:
-                  array:
-                    id: "integer"
-                    judul: "string"
-                    gambar: "link"
-                    deskripsi: "text"
-                    overview: "string"
-                    tanggal_mulai: "date"
-                    tanggal_selesai: "date"
-                first_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
-                from: 2
-                last_page: 8
-                last_page_url: "http://localhost:8000/api/resleting/tantangan?page=8"
-                links: Array(10) [ {…}, {…}, {…}, … ]
-                next_page_url: "http://localhost:8000/api/resleting/tantangan?page=3"
-                path: "http://localhost:8000/api/resleting/tantangan"
-                per_page: 1
-                prev_page_url: "http://localhost:8000/api/resleting/tantangan?page=1"
-                to: 2
-                total: 8
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-  /produk:
-    get:
-      tags:
-        - Layanan Penjualan
-      summary: MELIHAT semua produk
-      requestBody:
-        content:
-          application/json:
-            example:
-              search: "string"
-              length: "integer|required"
-              page: "integer"
-              tags: "string"
-              sort: "string:terbaru|terlama|a-z|z-a|termahal|termurah"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                current_page: 2
-                data:
-                  array:
-                    id: "integer"
-                    nomor_telepon: "string"
-                    nama: "string"
-                    deskripsi: "text"
-                    overview: "text"
-                    tags: "array<string>"
-                    harga: "integer"
-                    gambar: "link"
-                first_page_url: "http://localhost:8000/api/produk?page=1"
-                from: 2
-                last_page: 8
-                last_page_url: "http://localhost:8000/api/produk?page=8"
-                links: Array(10) [ {…}, {…}, {…}, … ]
-                next_page_url: "http://localhost:8000/api/produk?page=3"
-                path: "http://localhost:8000/api/produk"
-                per_page: 1
-                prev_page_url: "http://localhost:8000/api/produk?page=1"
-                to: 2
-                total: 8
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-    post:
-      tags:
-        - Layanan Penjualan
-      summary: MENAMBAHKAN produk hasil
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                nomor_telepon: "string"
-                nama: "string"
-                deskripsi: "text"
-                overview: "text"
-                tags: "array<string>|nullable"
-                harga: "integer"
-                gambar: "Blob base64"
-                sedang_dijual: "boolean|default:true"
-                pin: "boolean|default:false"
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Produk berhasil ditambahkan!"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        422:
-          description: UNPROCESSABLE ENTITY
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Jumlah produk yang dipin tidak boleh lebih dari 5"
-  /produk/{id}:
-    get:
-      tags:
-        - Layanan Penjualan
-      summary: MELIHAT semua tag produk yang tersedia
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              example:
-                nomor_telepon: "string"
-                nama: "string"
-                deskripsi: "text"
-                overview: "text"
-                tags: "array<string>|nullable"
-                harga: "integer"
-                gambar: "Blob base64"
-                sedang_dijual: "boolean"
-                pin: "boolean"
-    put:
-      tags:
-        - Layanan Penjualan
-      summary: MENGUBAH data produk
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-              example:
-                id: "integer"
-                nomor_telepon: "string"
-                nama: "string"
-                deskripsi: "text"
-                overview: "text"
-                tags: "array<string>|nullable"
-                harga: "integer"
-                gambar: "Blob base64"
-                sedang_dijual: "boolean"
-                pin: "boolean"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Produk telah diperbarui!"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        422:
-          description: UNPROCESSABLE ENTITY
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Jumlah produk yang dipin tidak boleh lebih dari 5"
-    delete:
-      tags:
-        - Layanan Penjualan
-      summary: MENGHAPUS data produk
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-              example:
-                success:
-                  message: "Produk berhasil dihilangkan dari peredaran!"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /produk/pin:
-    get:
-      tags:
-        - Layanan Penjualan
-      summary: MELIHAT semua produk yang dipin
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  example:
-                    id: "integer"
-                    nomor_telepon: "string"
-                    nama: "string"
-                    deskripsi: "text"
-                    overview: "text"
-                    tags: "array<string>"
-                    harga: "integer"
-                    gambar: "link"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-  /produk/tags:
-    get:
-      tags:
-        - Layanan Penjualan
-      summary: MELIHAT semua tag produk yang tersedia
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  example: "tag string"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-        404:
-          description: NOT FOUND
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data dengan id ... tidak ditemukan"
-  /import/format-a:
-    post:
-      tags:
-        - Import excel
-      summary: MELAKUKAN import data bayi
-      requestBody:
-        content:
-          multipart/form-data:
-            example:
-              file: "file"
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              example:
-                success:
-                  message: "Data berhasil diimport"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
-  /import/format-b:
-    post:
-      tags:
-        - Import excel
-      summary: MELAKUKAN import data bayi
-      requestBody:
-        content:
-          multipart/form-data:
-            example:
-              file: "file"
-      responses:
-        201:
-          description: CREATED
-          content:
-            application/json:
-              example:
-                success:
-                  message: "Data berhasil diimport"
-        400:
-          description: BAD REQUEST
-          content:
-            application/json:
-              example:
-                errors:
-                  message: "Data ... tidak valid"
