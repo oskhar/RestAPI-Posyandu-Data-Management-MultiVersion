@@ -4,7 +4,7 @@ use Domain\User\Actions\Admin\CreateAdminAction;
 use Domain\User\Actions\Admin\DeleteAdminAction;
 use Domain\User\Actions\Admin\DestroyAdminAction;
 use Domain\User\Actions\Admin\GetSelfAdminAction;
-use Domain\User\Actions\Admin\GetWithTrashAdminAction;
+use Domain\User\Actions\Admin\GetWithTrashedAdminAction;
 use Domain\User\Actions\Admin\RecoverAdminAction;
 use Domain\User\Actions\Admin\UpdateSelfAdminAction;
 use Domain\User\Actions\Member\GetSelfMemberAction;
@@ -23,7 +23,7 @@ Route::prefix('/admin')
         Route::put('/', UpdateSelfAdminAction::class);
         Route::post('/me', GetSelfAdminAction::class);
         Route::post('/refresh', RefreshAction::class);
-        Route::get('/with-trashed', GetWithTrashAdminAction::class);
+        Route::get('/with-trashed', GetWithTrashedAdminAction::class);
         Route::post('/reset-password', ResetPasswordAction::class);
         Route::post('/logout', LogoutAction::class);
         Route::put('/{id}', ResetPasswordAction::class);
